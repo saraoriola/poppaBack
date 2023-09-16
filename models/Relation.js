@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             Relation.belongsTo(models.EventUser, {
                 foreignKey: "eventUser",
-                as: "eventUser",
+                as: "eventoUsuario",
             });
         }
     }
