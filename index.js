@@ -1,14 +1,16 @@
-const express = require("express")
-const app = express()
-const jwt = require ("jsonwebtoken")
-const cors = require("cors")
+const express = require("express");
+const cors = require("cors");
 
-require("dotenv").config()
-const PORT = process.env.PORT || 3001 ;
+const app = express();
+const jwt = require("jsonwebtoken");
+const PORT = process.env.PORT || 3001;
 
+require("dotenv").config();
 
-//middleware
-app.use(express.json())
-app.use(cors())
+//NOTE: middleware
+app.use(express.json());
+app.use(cors());
 
-app.listen(PORT, ()=> console.log(`Server created successfully ${PORT}`))
+app.use("/users", require("./routes/users"));
+
+app.listen(PORT, () => console.log(`Server created successfully ${PORT}`));
