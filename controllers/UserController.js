@@ -9,10 +9,18 @@ require("dotenv").config();
 const UserController = {
   async create(req, res, next) {
     try {
-      req.body.role = "user";
+      const { name, email } = req.body;
+
+      if (!name || !email || !req.body.password) {
+        //NOTE: para no chafar el password de abajo
+        return res
+          .status(400)
+          .send({ message: "Debes completar todos los campos" });
+      }
+
       const password = await bcrypt.hash(req.body.password, 10);
       const user = await User.create({ ...req.body, password });
-      res.status(201).send({ msg: "User has been created", user });
+      res.status(201).send({ msg: "Usuario creado con éxito", user });
     } catch (error) {
       console.error(error);
       next(error);
@@ -35,9 +43,12 @@ const UserController = {
         return res.status(400).send({ msg: "Incorrect username or password" });
       }
 
-      const token = jwt.sign({ id: user.id }, jwt_secret, {
-        expiresIn: "10000",
-      });
+      const token = jwt.sign({ id: user.id }, jwt_secret);
+
+      // const token = jwt.sign({ id: user.id }, jwt_secret, {
+      //   expiresIn: "10000", //NOTE: Comento esto porque no se si hará falta
+      // });
+
       await Token.create({ token, UserId: user.id });
       res.send({ msg: "Successfully login", token, user });
     } catch (error) {
@@ -46,21 +57,20 @@ const UserController = {
     }
   },
 
-  async logout(req, res) {
-    try {
-      await Token.destroy({
-        where: {
-          [Op.and]: [
-            { UserId: req.user.id },
-            { token: req.headers.authorization },
-          ],
-        },
+  logout(req, res) {
+    Token.destroy({
+      where: {
+        [Op.and]: [
+          { UserId: req.user.id },
+          { token: req.headers.authorization },
+        ],
+      },
+    })
+      .then(() => res.send({ message: "Desconectado con éxito" }))
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send(err);
       });
-      res.send({ msg: "Successfully disconnected" });
-    } catch (error) {
-      console.log(error);
-      res.status(500).send({ msg: "Sorry, something went wrong" });
-    }
   },
 };
 
