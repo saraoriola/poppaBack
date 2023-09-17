@@ -7,6 +7,15 @@ const { Op } = Sequelize;
 require("dotenv").config();
 
 const UserController = {
+  async getAll(req, res) {
+    try {
+      const getAllUsers = await User.findAll();
+      res.status(200).send(getAllUsers);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   async create(req, res, next) {
     try {
       const { name, email } = req.body;
