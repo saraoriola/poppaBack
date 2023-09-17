@@ -1,4 +1,4 @@
-("use strict");
+"use strict";
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: "Organization",
+            tableName: "organization", // HE VISTO QUE SI LA TABLA SE LLAMA CON NOMBRE DIFERENTE (MAYUS-MINUS) HAY QUE ESPECIFICAR CON TABLENAME
         }
     );
     return Organization;

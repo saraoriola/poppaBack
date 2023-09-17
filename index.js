@@ -11,7 +11,8 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
-app.use("/users", require("./routes/users"));
+//url fixed
+app.use('/users', require('./routes/users'));
 app.use("/events", require("./routes/events"));
 app.use("/organizations", require("./routes/organizations"));
 

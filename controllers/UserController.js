@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { jwt_secret } = require("../config/config.json")["development"];
 const { Op } = Sequelize;
-// const transporter = require("../config/nodemailer");
+const transporter = require("../config/nodemailer");
 require("dotenv").config();
 
 const UserController = {
@@ -27,13 +27,20 @@ const UserController = {
     }
   },
 
-  async login(req, res) {
-    try {
-      const user = await User.findOne({
-        where: {
-          email: req.body.email,
-        },
-      });
+    async login(req, res) {
+        try {
+            const user = await User.findOne({
+                where: {
+                    email: req.body.email,
+                },
+            });
+            if (!user) {
+                return res.status(400).send({ msg: "Incorrect username or password" });
+            }
+            const isMatch = bcrypt.compareSync(req.body.password, user.password);
+            if (!isMatch) {
+                return res.status(400).send({ msg: "Incorrect username or password" });
+            }
 
       if (!user) {
         return res.status(400).send({ msg: "Email o contraseña incorrectos" });
