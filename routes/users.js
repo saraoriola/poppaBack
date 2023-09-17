@@ -1,3 +1,4 @@
+
 const express = require("express")
 const UserController = require("../controllers/UserController")
 const { authentication } = require("../middleware/authentication")
@@ -8,4 +9,10 @@ router.post("/", UserController.create)
 router.post("/login",UserController.login)
 router.delete("/logout",authentication,UserController.logout)
 
+
+
+
+router.post("/register", UserController.create);
+
 module.exports = router;
+
