@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const { jwt_secret } = require("../config/config.json")["development"]
 const { Op } = Sequelize;
-const transporter = require("../config/nodemailer");
+// const transporter = require("../config/nodemailer");
 require("dotenv").config();
 
 const UserController = {
