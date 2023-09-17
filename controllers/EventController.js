@@ -37,25 +37,6 @@ const EventController = {
         }
     },
 
-    async deleteEvent(req, res) {
-        try {
-            const { eventId } = req.params;
-
-            const deletedEvent = await Event.findByPk(eventId);
-
-            if (!deletedEvent) {
-                return res.status(404).send({ message: "No se encontró ningún evento para eliminar" });
-            }
-
-            await deletedEvent.destroy();
-
-            res.status(200).send({ message: "Evento eliminado exitosamente" });
-        } catch (error) {
-            console.error(error);
-            res.status(500).send({ message: "Ha habido un problema al eliminar el evento" });
-        }
-    },
-
     async getAllEvents(req, res) {
         try {
             const events = await Event.findAll();
@@ -81,6 +62,24 @@ const EventController = {
         } catch (error) {
             console.error(error);
             res.status(500).send({ message: "Ha habido un problema al obtener los detalles del evento" });
+        }
+    },
+    async deleteEvent(req, res) {
+        try {
+            const { eventId } = req.params;
+
+            const deletedEvent = await Event.findByPk(eventId);
+
+            if (!deletedEvent) {
+                return res.status(404).send({ message: "No se encontró ningún evento para eliminar" });
+            }
+
+            await deletedEvent.destroy();
+
+            res.status(200).send({ message: "Evento eliminado exitosamente" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ message: "Ha habido un problema al eliminar el evento" });
         }
     },
 };
