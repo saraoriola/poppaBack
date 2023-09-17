@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 //url fixed
-app.use('/users', require('./routes/users'));
+app.use("/users", require("./routes/users"));
 app.use("/events", require("./routes/events"));
 app.use("/organizations", require("./routes/organizations"));
 
