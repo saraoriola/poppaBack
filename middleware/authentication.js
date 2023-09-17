@@ -10,7 +10,7 @@ const authentication = async (req, res, next) => {
     const user = await User.findByPk(payload.id);
     const tokenFound = await Token.findOne({
       where: {
-        [Op.and]: [{ UserId: user.id }, { token: token }],
+        [Op.and]: [{ User_id: user.id }, { token: token }],
       },
     });
     if (!tokenFound) {
