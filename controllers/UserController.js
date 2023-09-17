@@ -1,14 +1,12 @@
-
-const { User, Token, Sequelize } = require('../models/index.js');
-const bcrypt = require('bcryptjs');
+const { User, Token, Sequelize } = require("../models/index.js");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { jwt_secret } = require("../config/config.json")["development"]
+const { jwt_secret } = require("../config/config.json")["development"];
 const { Op } = Sequelize;
 const transporter = require("../config/nodemailer");
 require("dotenv").config();
 
 const UserController = {
-
     async create(req, res, next) {
         try {
             req.body.role = "user";
@@ -36,7 +34,6 @@ const UserController = {
                 return res.status(400).send({ msg: "Incorrect username or password" });
             }
 
-
             const token = jwt.sign({ id: user.id }, jwt_secret, {
                 expiresIn: "10000",
             });
@@ -52,21 +49,15 @@ const UserController = {
         try {
             await Token.destroy({
                 where: {
-                    [Op.and]: [
-                        { UserId: req.user.id },
-                        { token: req.headers.authorization },
-                    ],
+                    [Op.and]: [{ UserId: req.user.id }, { token: req.headers.authorization }],
                 },
             });
             res.send({ msg: "Successfully disconnected" });
         } catch (error) {
             console.log(error);
-            res
-                .status(500)
-                .send({ msg: "Sorry, something went wrong" });
+            res.status(500).send({ msg: "Sorry, something went wrong" });
         }
     },
-
-}
+};
 
 module.exports = UserController;
