@@ -35,9 +35,9 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true, // Esto hace que el campo de correo electrónico sea único
+        unique: true,
         validate: {
-          isEmail: true, // También puedes validar que el valor sea una dirección de correo electrónico válida
+          isEmail: true,
         },
       },
       password: DataTypes.STRING,

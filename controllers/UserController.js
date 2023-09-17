@@ -7,6 +7,7 @@ const { Op } = Sequelize;
 require("dotenv").config();
 
 const UserController = {
+  
   async getAll(req, res) {
     try {
       const getAllUsers = await User.findAll();
