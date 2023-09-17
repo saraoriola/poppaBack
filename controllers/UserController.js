@@ -36,21 +36,20 @@ const UserController = {
       });
 
       if (!user) {
-        return res.status(400).send({ msg: "Incorrect email or password" });
+        return res.status(400).send({ msg: "Email o contraseña incorrectos" });
       }
+
       const isMatch = bcrypt.compareSync(req.body.password, user.password);
       if (!isMatch) {
-        return res.status(400).send({ msg: "Incorrect username or password" });
+        return res.status(400).send({ msg: "Email o contraseña incorrectos" });
       }
 
       const token = jwt.sign({ id: user.id }, jwt_secret);
 
-      // const token = jwt.sign({ id: user.id }, jwt_secret, {
-      //   expiresIn: "10000", //NOTE: Comento esto porque no se si hará falta
-      // });
+      // Ahora, crea el token asociado al usuario que inició sesión
+      const createdToken = await Token.create({ token, User_id: user.id });
 
-      await Token.create({ token, UserId: user.id });
-      res.send({ msg: "Successfully login", token, user });
+      res.send({ msg: "Logeado con éxito", token, user, createdToken });
     } catch (error) {
       console.error(error);
       res.status(500).send(error);
@@ -61,15 +60,15 @@ const UserController = {
     Token.destroy({
       where: {
         [Op.and]: [
-          { UserId: req.user.id },
+          { User_id: req.user.id },
           { token: req.headers.authorization },
         ],
       },
     })
       .then(() => res.send({ message: "Desconectado con éxito" }))
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send(err);
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send(error);
       });
   },
 };
