@@ -11,9 +11,13 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
-app.use("/users", require("./routes/users"));
+
+//url fixed
+app.use('/users', require('./routes/users'));
+
 app.use("/events", require("./routes/events"));
 
 app.listen(PORT, () => console.log(`Server created successfully ${PORT}`));
 
 module.exports = app;
+
