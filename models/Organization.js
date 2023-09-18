@@ -30,14 +30,17 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true,
         },
       },
-      tel: DataTypes.INTEGER, //NOTE: Esto debe ser obligatorio?
-      representative: DataTypes.STRING, //NOTE: Esto debe ser obligatorio?
-      patronage: DataTypes.BOOLEAN, //NOTE: Esto debe ser obligatorio?
+      tel: DataTypes.INTEGER,
+      representative: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      patronage: DataTypes.BOOLEAN,
     },
     {
       sequelize,
       modelName: "Organization",
-      tableName: "organization", // NOTE: HE VISTO QUE SI LA TABLA SE LLAMA CON NOMBRE DIFERENTE (MAYUS-MINUS) HAY QUE ESPECIFICAR CON TABLENAME
+      tableName: "organizations", // NOTE: HE VISTO QUE SI LA TABLA SE LLAMA CON NOMBRE DIFERENTE (MAYUS-MINUS) HAY QUE ESPECIFICAR CON TABLENAME
     }
   );
   return Organization;

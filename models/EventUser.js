@@ -12,16 +12,17 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     EventUser.init(
-        {
-            event_id: DataTypes.INTEGER,
-            user_id: DataTypes.INTEGER,
-            attended: DataTypes.BOOLEAN,
-            feedback: DataTypes.STRING,
-        },
-        {
-            sequelize,
-            modelName: "EventUser",
-        }
+      {
+        event_id: DataTypes.INTEGER,
+        user_id: DataTypes.INTEGER,
+        attended: DataTypes.BOOLEAN,
+        feedback: DataTypes.STRING,
+      },
+      {
+        sequelize,
+        modelName: "EventUser",
+        tableName: "eventusers",
+      }
     );
 
     return EventUser;

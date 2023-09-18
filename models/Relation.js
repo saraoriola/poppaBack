@@ -12,14 +12,15 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     Relation.init(
-        {
-            eventUser: DataTypes.INTEGER,
-            name: DataTypes.STRING,
-        },
-        {
-            sequelize,
-            modelName: "Relation",
-        }
+      {
+        eventUser: DataTypes.INTEGER,
+        name: DataTypes.STRING,
+      },
+      {
+        sequelize,
+        modelName: "Relation",
+        tableName: "relations",
+      }
     );
 
     return Relation;

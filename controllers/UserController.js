@@ -21,12 +21,12 @@ const UserController = {
     try {
       const { name, email } = req.body;
 
-      if (!name || !email || !req.body.password) {
-        //NOTE: para no chafar el password de abajo
-        return res
-          .status(400)
-          .send({ message: "Debes completar todos los campos" });
-      }
+      // if (!name || !email || !req.body.password) {
+      //   //NOTE: para no chafar el password de abajo
+      //   return res
+      //     .status(400)
+      //     .send({ message: "Debes completar todos los campos" });
+      // }
 
       const password = await bcrypt.hash(req.body.password, 10);
       const user = await User.create({ ...req.body, password });
