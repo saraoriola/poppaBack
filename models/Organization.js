@@ -2,33 +2,43 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-    class Organization extends Model {
-        static associate(models) {
-            Organization.hasMany(models.User, {
-                foreignKey: "organization_id",
-                as: "users",
-            });
+  class Organization extends Model {
+    static associate(models) {
+      Organization.hasMany(models.User, {
+        foreignKey: "organization_id",
+        as: "users",
+      });
 
-            Organization.hasOne(models.Type, {
-                foreignKey: "organization_id",
-                as: "type",
-            });
-        }
+      Organization.hasOne(models.Type, {
+        foreignKey: "organization_id",
+        as: "type",
+      });
     }
-    Organization.init(
-        {
-            name: DataTypes.STRING,
-            web: DataTypes.STRING,
-            email: DataTypes.STRING,
-            tel: DataTypes.INTEGER,
-            representative: DataTypes.STRING,
-            patronage: DataTypes.BOOLEAN,
+  }
+  Organization.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      web: DataTypes.STRING, //NOTE: Esto debe ser obligatorio?
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true,
         },
-        {
-            sequelize,
-            modelName: "Organization",
-            tableName: "organization", // HE VISTO QUE SI LA TABLA SE LLAMA CON NOMBRE DIFERENTE (MAYUS-MINUS) HAY QUE ESPECIFICAR CON TABLENAME
-        }
-    );
-    return Organization;
+      },
+      tel: DataTypes.INTEGER, //NOTE: Esto debe ser obligatorio?
+      representative: DataTypes.STRING, //NOTE: Esto debe ser obligatorio?
+      patronage: DataTypes.BOOLEAN, //NOTE: Esto debe ser obligatorio?
+    },
+    {
+      sequelize,
+      modelName: "Organization",
+      tableName: "organization", // NOTE: HE VISTO QUE SI LA TABLA SE LLAMA CON NOMBRE DIFERENTE (MAYUS-MINUS) HAY QUE ESPECIFICAR CON TABLENAME
+    }
+  );
+  return Organization;
 };
