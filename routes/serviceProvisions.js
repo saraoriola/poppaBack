@@ -3,10 +3,6 @@ const ServiceProvisionController = require("../controllers/ServiceProvisionContr
 const { authentication } = require("../middleware/authentication");
 const router = express.Router();
 
-router.post(
-  "/create",
-  authentication,
-  ServiceProvisionController.createService
-);
+router.post("/create", authentication, ServiceProvisionController.createService);
 
 module.exports = router;
