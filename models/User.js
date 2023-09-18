@@ -29,18 +29,24 @@ module.exports = (sequelize, DataTypes) => {
 
   User.init(
     {
-      name: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       organization_id: DataTypes.INTEGER,
       surname: DataTypes.STRING,
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true, // Esto hace que el campo de correo electrónico sea único
+        unique: true,
         validate: {
-          isEmail: true, // También puedes validar que el valor sea una dirección de correo electrónico válida
+          isEmail: true,
         },
       },
-      password: DataTypes.STRING,
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       tel: DataTypes.INTEGER,
       birthdate: DataTypes.INTEGER,
       avatar: DataTypes.STRING,
@@ -48,6 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "User",
+      tableName: "users",
     }
   );
 
