@@ -16,8 +16,6 @@ describe("testing/users", () => {
   });
 
   test("Register", async () => {
-    let usersCount = await User.count();
-
     const res = await request(app)
       .post("/users/register")
       .send(user)
@@ -33,15 +31,17 @@ describe("testing/users", () => {
       .post("/users/login")
       .send({ email: user.email, password: user.password })
       .expect(200);
+
     expect(res.body.token).toBeDefined();
     token = res.body.token;
   });
 
-  test("Logout a user record", async () => {
+  test("Logout", async () => {
     const res = await request(app)
       .delete("/users/logout")
       .set({ Authorization: token })
       .expect(200);
-    expect(token).toBe(null);
+
+    expect(res.body.token).toBeUndefined();
   });
 });

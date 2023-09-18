@@ -19,6 +19,7 @@ app.use(express.json());
 app.use("/users", require("./routes/users"));
 app.use("/events", require("./routes/events"));
 app.use("/organizations", require("./routes/organizations"));
+app.use("/serviceprovisions", require("./routes/serviceProvisions"));
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 

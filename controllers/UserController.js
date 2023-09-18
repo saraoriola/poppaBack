@@ -82,7 +82,6 @@ const UserController = {
         return res.status(400).send({ msg: "Nombre de usuario o contraseña incorrecta" });
       }
 
-
       const token = jwt.sign({ id: user.id }, jwt_secret);
       const createdToken = await Token.create({ token, User_id: user.id });
 
@@ -125,7 +124,6 @@ const UserController = {
         res.status(500).send(error);
       });
   },
-
 };
 
 module.exports = UserController;
