@@ -10,7 +10,7 @@ const ServiceProvisionController = {
       console.error(error);
       res
         .status(500)
-        .send({ message: "Hay un problema con el servidor", error });
+        .send({ message: "Hubo un problema con el servidor", error });
     }
   },
 
@@ -26,7 +26,7 @@ const ServiceProvisionController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({
-        message: "Hay un problema con el servidor",
+        message: "Hubo un problema con el servidor",
         error,
       });
     }
@@ -46,7 +46,7 @@ const ServiceProvisionController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({
-        message: "Hay un problema con el servidor",
+        message: "Hubo un problema con el servidor",
         error,
       });
     }
@@ -60,7 +60,7 @@ const ServiceProvisionController = {
       console.error(error);
       res
         .status(500)
-        .send({ message: "Hay un problema con el servidor", error });
+        .send({ message: "Hubo un problema con el servidor", error });
     }
   },
 
@@ -79,12 +79,12 @@ const ServiceProvisionController = {
 
       res
         .status(200)
-        .send({ message: "Usuario actualizado con éxito" }, serviceUpdated);
+        .send({ message: "Servicio actualizado con éxito" }, serviceUpdated);
     } catch (error) {
       console.error(error);
       res
         .status(500)
-        .send({ message: "Hay un problema con el servidor", error });
+        .send({ message: "Hubo un problema con el servidor", error });
     }
   },
 
@@ -105,7 +105,7 @@ const ServiceProvisionController = {
       console.error(error);
       res
         .status(500)
-        .send({ message: "Hay un problema con el servidor", error });
+        .send({ message: "Hubo un problema con el servidor", error });
     }
   },
 };
