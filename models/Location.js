@@ -29,12 +29,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      capacity: DataTypes.INTEGER, //NOTE: Debe ser obligatorio?
-      description: DataTypes.STRING, //NOTE: Debe ser obligatorio?
+      capacity: DataTypes.INTEGER,
+      description: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: "Location",
+      tableName: "locations",
     }
   );
 

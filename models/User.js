@@ -50,10 +50,12 @@ module.exports = (sequelize, DataTypes) => {
       tel: DataTypes.INTEGER,
       birthdate: DataTypes.INTEGER,
       avatar: DataTypes.STRING,
+      confirmed: DataTypes.BOOLEAN
     },
     {
       sequelize,
       modelName: "User",
+      tableName: "users",
     }
   );
 

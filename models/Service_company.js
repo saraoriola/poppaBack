@@ -25,12 +25,13 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true,
         },
       },
-      tel: DataTypes.INTEGER, //NOTE: Esto debe ser obligatorio?
-      speciality: DataTypes.STRING, //NOTE: Esto debe ser obligatorio?
+      tel: DataTypes.INTEGER,
+      speciality: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: "Service_company",
+      tableName: "service_companies",
     }
   );
 

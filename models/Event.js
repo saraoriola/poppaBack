@@ -28,14 +28,24 @@ module.exports = (sequelize, DataTypes) => {
       location_id: DataTypes.INTEGER, //NOTE: Alguno de estos debe ser obligatorio?
       dateTime: DataTypes.STRING,
       duration_min: DataTypes.INTEGER,
-      type: DataTypes.STRING,
+      type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       banner: DataTypes.STRING,
-      description: DataTypes.STRING,
-      title: DataTypes.STRING,
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       sequelize,
       modelName: "Event",
+      tableName: "events",
     }
   );
 
