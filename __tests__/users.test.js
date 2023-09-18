@@ -16,8 +16,6 @@ describe("testing/users", () => {
   });
 
   test("Register", async () => {
-    let usersCount = await User.count();
-
     const res = await request(app)
       .post("/users/register")
       .send(user)
@@ -33,6 +31,7 @@ describe("testing/users", () => {
       .post("/users/login")
       .send({ email: user.email, password: user.password })
       .expect(200);
+      
     expect(res.body.token).toBeDefined();
     token = res.body.token;
   });

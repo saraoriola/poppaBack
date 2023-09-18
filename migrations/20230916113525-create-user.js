@@ -40,8 +40,8 @@ module.exports = {
       avatar: {
         type: Sequelize.STRING,
       },
-      confirmed:{
-        type: Sequelize.BOOLEAN
+      confirmed: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,

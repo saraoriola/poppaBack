@@ -42,25 +42,31 @@ const UserController = {
         return res.status(400).send({ msg: "Incorrect username or password" });
       }
 
-            res.send({ msg: "Logeado con éxito", token, user, createdToken });
-        } catch (error) {
-            console.error(error);
-            res.status(500).send(error);
-        }
-    },
+      const token = jwt.sign({ id: user.id }, jwt_secret);
+      const createdToken = await Token.create({ token, User_id: user.id });
 
-    logout(req, res) {
-        Token.destroy({
-            where: {
-                [Op.and]: [{ User_id: req.user.id }, { token: req.headers.authorization }],
-            },
-        })
-            .then(() => res.send({ message: "Desconectado con éxito" }))
-            .catch((error) => {
-                console.error(error);
-                res.status(500).send(error);
-            });
-    },
+      res.send({ msg: "Logeado con éxito", token, user, createdToken });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
+  },
+
+  logout(req, res) {
+    Token.destroy({
+      where: {
+        [Op.and]: [
+          { User_id: req.user.id },
+          { token: req.headers.authorization },
+        ],
+      },
+    })
+      .then(() => res.send({ message: "Desconectado con éxito" }))
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send(error);
+      });
+  },
 };
 
 module.exports = UserController;
