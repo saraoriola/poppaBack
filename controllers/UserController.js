@@ -7,7 +7,6 @@ const { Op } = Sequelize;
 require("dotenv").config();
 
 const UserController = {
-  
   async getAll(req, res) {
     try {
       const getAllUsers = await User.findAll();
@@ -19,15 +18,6 @@ const UserController = {
 
   async create(req, res, next) {
     try {
-      const { name, email } = req.body;
-
-      // if (!name || !email || !req.body.password) {
-      //   //NOTE: para no chafar el password de abajo
-      //   return res
-      //     .status(400)
-      //     .send({ message: "Debes completar todos los campos" });
-      // }
-
       const password = await bcrypt.hash(req.body.password, 10);
       const user = await User.create({ ...req.body, password });
       res.status(201).send({ msg: "Usuario creado con éxito", user });
