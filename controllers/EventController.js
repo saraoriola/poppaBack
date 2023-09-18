@@ -1,6 +1,7 @@
 const Event = require("../models/Event");
 
 const EventController = {
+
   async create(req, res) {
     try {
       const event = await Event.create(req.body);

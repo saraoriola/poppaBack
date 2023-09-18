@@ -42,33 +42,25 @@ const UserController = {
         return res.status(400).send({ msg: "Incorrect username or password" });
       }
 
-      const token = jwt.sign({ id: user.id }, jwt_secret);
+            res.send({ msg: "Logeado con éxito", token, user, createdToken });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send(error);
+        }
+    },
 
-      // Ahora, crea el token asociado al usuario que inició sesión
-      const createdToken = await Token.create({ token, User_id: user.id });
-
-      res.send({ msg: "Logeado con éxito", token, user, createdToken });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send(error);
-    }
-  },
-
-  logout(req, res) {
-    Token.destroy({
-      where: {
-        [Op.and]: [
-          { User_id: req.user.id },
-          { token: req.headers.authorization },
-        ],
-      },
-    })
-      .then(() => res.send({ message: "Desconectado con éxito" }))
-      .catch((error) => {
-        console.error(error);
-        res.status(500).send(error);
-      });
-  },
+    logout(req, res) {
+        Token.destroy({
+            where: {
+                [Op.and]: [{ User_id: req.user.id }, { token: req.headers.authorization }],
+            },
+        })
+            .then(() => res.send({ message: "Desconectado con éxito" }))
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send(error);
+            });
+    },
 };
 
 module.exports = UserController;
