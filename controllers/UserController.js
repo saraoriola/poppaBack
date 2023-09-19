@@ -176,12 +176,23 @@ const UserController = {
   },
   async resetPassword(req, res) {
     try {
-      const password = await bcrypt.hash(req.body.password, 10);
+      const { password } = req.body;
+
+      if (!regExPass.test(password)) {
+        return res.status(400).send({
+          message:
+            "La contraseña debe tener un mínimo de 8 carácters, una mayúscula, una minúscula y un carácter especial",
+        });
+      }
+      const hashedPassword = await bcrypt.hash(password, 10);
       const recoverToken = req.params.recoverToken;
       const payload = jwt.verify(recoverToken, jwt_secret);
       const whereCondition = { email: payload.email };
-      await User.update({ password: password }, { where: whereCondition });
-      res.send({ message: "contraseña cambiada con éxito" });
+      await User.update(
+        { password: hashedPassword },
+        { where: whereCondition }
+      );
+      res.send({ message: "Contraseña cambiada con éxito" });
     } catch (error) {
       console.error(error);
     }
