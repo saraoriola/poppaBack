@@ -31,3 +31,5 @@ router.delete(
   authentication,
   contractedServices.deleteContractedService
 );
+
+module.exports = router;
