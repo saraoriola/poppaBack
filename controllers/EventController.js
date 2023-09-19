@@ -1,7 +1,6 @@
-const Event = require("../models/Event");
+const { Event } = require("../models/index.js");
 
 const EventController = {
-
   async create(req, res) {
     try {
       const event = await Event.create(req.body);
@@ -71,11 +70,9 @@ const EventController = {
         .send({ message: "Detalles del evento obtenidos exitosamente", event });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({
-          message: "Ha habido un problema al obtener los detalles del evento",
-        });
+      res.status(500).send({
+        message: "Ha habido un problema al obtener los detalles del evento",
+      });
     }
   },
   async deleteEvent(req, res) {
