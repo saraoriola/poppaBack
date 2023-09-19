@@ -7,8 +7,9 @@ const { authentication } = require("../middleware/authentication");
 
 router.get("/getall", authentication, EventController.getAllEvents);
 router.get("/getbyid/:id", authentication, EventController.getEventById);
+router.get("/getbytype/:type", authentication, EventController.getEventByType);
 
-router.post("/create", authentication, EventController.create);
+router.post("/create", authentication, EventController.createEvent);
 
 router.put("/update/:id", authentication, EventController.updateEvent);
 
