@@ -1,6 +1,4 @@
 const { Service_Provision } = require("../models/index.js"); //Esto estaba importado directamente desde la carpeta del modelo, debemos importar desde model index.
-
-const ServiceProvision = require("../models/Service_provision");
 const { Op } = require("sequelize");
 
 const ServiceProvisionController = {
