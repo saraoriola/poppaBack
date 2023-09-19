@@ -64,6 +64,32 @@ const EventController = {
     }
   },
 
+  async getEventByTitle(req, res) {
+    try {
+      const { title } = req.params;
+
+      const event = await Event.findAll({
+        where: { title: { [Op.like]: `%${title}%` } },
+      });
+
+      if (!event || event.length === 0) {
+        return res
+          .status(404)
+          .send({ message: "No se ha encontrado el evento" });
+      } else {
+        return res.status(200).send({
+          message: "Eventos obtenidos con éxito",
+          event,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Hubo un problema con el servidor", error });
+    }
+  },
+
   async createEvent(req, res) {
     try {
       const event = await Event.create(req.body);
