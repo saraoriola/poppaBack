@@ -4,102 +4,120 @@ const { Service_Provision } = require("../models/index.js"); //Esto estaba impor
 const { Op } = require("sequelize");
 
 const ServiceProvisionController = {
-    async getAllServices(req, res) {
-        try {
-            const getAllServices = await Service_Provision.findAll();
-            res.status(200).send(getAllServices);
-        } catch (error) {
-            console.error(error);
-            res.status(500).send({ message: "Hubo un problema con el servidor", error });
-        }
-    },
 
-    async getServiceById(req, res) {
-        try {
-            const service = await Service_Provision.findByPk(req.params.id);
+  // NOTE: OKAY
+  async getAllServices(req, res) {
+    try {
+      const getAllServices = await Service_Provision.findAll();
+      res.status(200).send(getAllServices);
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Hubo un problema con el servidor", error });
+    }
+  },
 
-            if (!service) {
-                res.status(404).send({ message: "Servicio no encontrado" });
-            }
+  // NOTE: OKAY
+  async getServiceById(req, res) {
+    try {
+      const service = await Service_Provision.findByPk(req.params.id);
 
-            res.status(200).send(service);
-        } catch (error) {
-            console.error(error);
-            res.status(500).send({
-                message: "Hubo un problema con el servidor",
-                error,
-            });
-        }
-    },
+      if (!service) {
+        res.status(404).send({ message: "Servicio no encontrado" });
+      } else {
+        res.status(200).send(service);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "Hubo un problema con el servidor",
+        error,
+      });
+    }
+  },
 
-    async getServiceByName(req, res) {
-        try {
-            const service = await Service_Provision.findAll({
-                where: { name: { [Op.like]: `%${req.params.name}%` } },
-            });
+  // NOTE: OKAY
+  async getServiceByName(req, res) {
+    try {
+      const service = await Service_Provision.findAll({
+        where: { name: { [Op.like]: `%${req.params.name}%` } },
+      });
 
-            if (!service) {
-                res.status(404).send({ message: "Servicio no encontrado" });
-            }
+      if (service.length === 0 || !service) {
+        res.status(404).send({ message: "Servicio no encontrado" });
+      } else {
+        res.status(200).send(service);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "Hubo un problema con el servidor",
+        error,
+      });
+    }
+  },
 
-            res.status(200).send(service);
-        } catch (error) {
-            console.error(error);
-            res.status(500).send({
-                message: "Hubo un problema con el servidor",
-                error,
-            });
-        }
-    },
+  // NOTE: OKAY
+  async createService(req, res) {
+    try {
+      const service = await Service_Provision.create(req.body);
+      res.status(201).send({ message: "Servicio creado con éxito", service });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Hubo un problema con el servidor", error });
+    }
+  },
 
-    async createService(req, res) {
-        try {
-            const service = await Service_Provision.create(req.body);
-            res.status(201).send({ message: "Servicio creado con éxito", service });
-        } catch (error) {
-            console.error(error);
-            res.status(500).send({ message: "Hubo un problema con el servidor", error });
-        }
-    },
+  // NOTE: OKAY
+  async updateService(req, res) {
+    try {
+      const { id } = req.params;
+      const serviceUpdated = await Service_Provision.findByPk(id);
 
-    async updateService(req, res) {
-        try {
-            const serviceId = req.params.id;
-            const serviceUpdated = req.body;
+      if (!serviceUpdated) {
+        return res
+          .status(404)
+          .send({ message: "No se encontró ningún Servicio" });
+      }
 
-            await Service_Provision.update(serviceUpdated, {
-                where: { id: serviceId },
-            });
+      await serviceUpdated.update(req.body);
 
-            if (!serviceId) {
-                res.status(404).send({ message: "Servicio no encontrado" });
-            }
+      res.status(200).send({
+        message: "Servicio actualizado con éxito",
+        event: serviceUpdated,
+      });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Ha habido un problema al actualizar el servicio" });
+    }
+  },
 
-            res.status(200).send({ message: "Servicio actualizado con éxito" }, serviceUpdated);
-        } catch (error) {
-            console.error(error);
-            res.status(500).send({ message: "Hubo un problema con el servidor", error });
-        }
-    },
+  // NOTE: OKAY
+  async deleteService(req, res) {
+    try {
+      const service = await Service_Provision.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
 
-    async deleteService(req, res) {
-        try {
-            const service = await Service_Provision.destroy({
-                where: {
-                    id: req.params.id,
-                },
-            });
-
-            if (!service) {
-                res.status(404).send({ message: "Servicio no encontrado" });
-            }
-
-            res.status(204).send({ message: "Servicio eliminado con éxito" });
-        } catch (error) {
-            console.error(error);
-            res.status(500).send({ message: "Hubo un problema con el servidor", error });
-        }
-    },
+      if (!service) {
+        res.status(404).send({ message: "Servicio no encontrado" });
+      } else {
+        res.status(200).send({ message: "Servicio eliminado con éxito" });
+      }
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Hubo un problema con el servidor", error });
+    }
+  },
 };
 
 module.exports = ServiceProvisionController;
