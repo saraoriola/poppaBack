@@ -1,4 +1,4 @@
-const { User, Token, Sequelize } = require("../models/index.js");
+const { User, Token, Sequelize, Role } = require("../models/index.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { jwt_secret } = require("../config/config.json")["development"];
@@ -6,7 +6,7 @@ const { Op } = Sequelize;
 const transporter = require("../config/nodemailer");
 require("dotenv").config();
 
-const regExPass = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*]).{8,}$/;
+const regExPass = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
 
 const UserController = {
   async getAll(req, res) {
@@ -17,6 +17,7 @@ const UserController = {
       console.error(error);
     }
   },
+
   async getById(req, res) {
     try {
       const user = await User.findByPk(req.params.id);
@@ -29,6 +30,7 @@ const UserController = {
       });
     }
   },
+
   async getUserByName(req, res) {
     try {
       const user = await User.findAll({
@@ -49,6 +51,7 @@ const UserController = {
       });
     }
   },
+
   async register(req, res, next) {
     try {
       const { password } = req.body;
@@ -68,9 +71,16 @@ const UserController = {
         confirmed: false,
         avatar: req.file?.filename,
       });
+
+      const role = await Role.create({
+        User_id: user.id,
+        type: "user",
+      });
+
       const emailToken = jwt.sign({ email: req.body.email }, jwt_secret, {
         expiresIn: "48h",
       });
+
       const url = "http://localhost:3001/users/confirm/" + emailToken;
       await transporter.sendMail({
         to: req.body.email,
@@ -79,12 +89,14 @@ const UserController = {
         <a href="${url}"> Click para confirmar tu registro</a>
         `,
       });
-      res.status(201).send({ message: "Usuario creado con éxito", user });
+
+      res.status(201).send({ message: "Usuario creado con éxito", user, role });
     } catch (error) {
       console.error(error);
       next(error);
     }
   },
+
   async confirm(req, res) {
     try {
       const token = req.params.emailToken;
@@ -102,25 +114,7 @@ const UserController = {
       console.error(error);
     }
   },
-  async update(req, res) {
-    try {
-      const UserId = req.params.id;
-      const updatedData = req.body;
-      if (req.body.password) {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        updatedData.password = hashedPassword;
-      }
-      await User.update(updatedData, {
-        where: { id: UserId },
-      });
 
-      res.send("User actualizado con éxito !");
-    } catch (error) {
-      res
-        .status(500)
-        .send({ message: "Erro al se actualizar el usuario", error });
-    }
-  },
   async login(req, res) {
     try {
       const user = await User.findOne({
@@ -153,6 +147,27 @@ const UserController = {
       res.status(500).send(error);
     }
   },
+
+  async update(req, res) {
+    try {
+      const UserId = req.params.id;
+      const updatedData = req.body;
+      if (req.body.password) {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        updatedData.password = hashedPassword;
+      }
+      await User.update(updatedData, {
+        where: { id: UserId },
+      });
+
+      res.send("User actualizado con éxito !");
+    } catch (error) {
+      res
+        .status(500)
+        .send({ message: "Erro al se actualizar el usuario", error });
+    }
+  },
+
   async recoverPassword(req, res) {
     try {
       const recoverToken = jwt.sign({ email: req.params.email }, jwt_secret, {
@@ -174,6 +189,7 @@ const UserController = {
       console.error(error);
     }
   },
+
   async resetPassword(req, res) {
     try {
       const { password } = req.body;
@@ -197,6 +213,7 @@ const UserController = {
       console.error(error);
     }
   },
+
   async delete(req, res) {
     try {
       const user = await User.destroy({
@@ -214,6 +231,7 @@ const UserController = {
       res.status(500).send({ message: "Error de servidor.", error });
     }
   },
+
   async logout(req, res) {
     try {
       await Token.destroy({
