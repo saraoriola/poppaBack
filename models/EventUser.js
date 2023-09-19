@@ -4,9 +4,8 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class EventUser extends Model {
         static associate(models) {
-            // Relación 1:1 con Feedback
             EventUser.hasOne(models.Feedback, {
-                foreignKey: "eventUserId", // Clave foránea en la tabla Feedback
+                foreignKey: "eventUserId",
                 as: "feedback",
             });
         }
@@ -16,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             event_id: DataTypes.INTEGER,
             user_id: DataTypes.INTEGER,
-            attended: DataTypes.BOOLEAN,
+            arriveTime: DataTypes.DATE,
             feedback_id: DataTypes.INTEGER,
             leaveTime: DataTypes.DATE,
         },

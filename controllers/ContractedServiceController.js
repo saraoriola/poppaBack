@@ -50,14 +50,14 @@ const ContractedServiceController = {
   },
   async updateContractedService(req, res) {
     try {
-      const contractedServiceId = req.params.id;
+      const { id } = req.params;
       const contractedServiceUpdated = req.body;
 
       await Contracted_service.update(contractedServiceUpdated, {
-        where: { id: contractedServiceId },
+        where: { id: id },
       });
 
-      if (!contractedServiceId) {
+      if (!id) {
         res.status(404).send({ message: "Servicio contratado no encontrado" });
       }
 
