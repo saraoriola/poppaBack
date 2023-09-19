@@ -16,15 +16,17 @@ const ServiceCompanyController = {
 
   async getServiceCompanyById(req, res) {
     try {
-      const serviceCompany = await Service_company.findByPk(req.params.id);
+      const { id } = req.params;
+
+      const serviceCompany = await Service_company.findByPk(id);
 
       if (!serviceCompany) {
         res
           .status(404)
           .send({ message: "Compañía de servicios no encontrada" });
+      } else {
+        res.status(200).send(serviceCompany);
       }
-
-      res.status(200).send(serviceCompany);
     } catch (error) {
       res.status(500).send({
         message: "Hubo un problema con el servidor",
@@ -35,17 +37,19 @@ const ServiceCompanyController = {
 
   async getAllServiceCompaniesByName(req, res) {
     try {
+      const { name } = req.params;
+
       const serviceCompanies = await Service_company.findAll({
-        where: { name: { [Op.like]: `%${req.params.name}%` } },
+        where: { name: { [Op.like]: `%${name}%` } },
       });
 
-      if (!serviceCompanies) {
+      if (serviceCompanies.length === 0 || !serviceCompanies) {
         res
           .status(404)
           .send({ message: "Compañía de servicios no encontrada" });
+      } else {
+        res.status(200).send(serviceCompanies);
       }
-
-      res.status(200).send(serviceCompanies);
     } catch (error) {
       console.error(error);
       res.status(500).send({
@@ -72,25 +76,23 @@ const ServiceCompanyController = {
 
   async updateServiceCompany(req, res) {
     try {
-      const serviceCompanyId = req.params.id;
+      const { id } = req.params;
       const serviceCompanyUpdated = req.body;
 
       await Service_company.update(serviceCompanyUpdated, {
-        where: { id: serviceCompanyId },
+        where: { id: id },
       });
 
-      if (!serviceCompanyId) {
+      if (!id) {
         res
           .status(404)
           .send({ message: "Compañía de servicios no encontrada" });
+      } else {
+        res.status(200).send({
+          message: "Compañía de servicios actualizada con éxito",
+          serviceCompanyUpdated,
+        });
       }
-
-      res
-        .status(200)
-        .send(
-          { message: "Compañía de servicios actualizada con éxito" },
-          serviceCompanyUpdated
-        );
     } catch (error) {
       console.error(error);
       res
@@ -111,11 +113,11 @@ const ServiceCompanyController = {
         res
           .status(404)
           .send({ message: "Compañía de servicios no encontrada" });
+      } else {
+        res
+          .status(200)
+          .send({ message: "Compañía de servicios eliminada con éxito" });
       }
-
-      res
-        .status(204)
-        .send({ message: "Compañía de servicios eliminada con éxito" });
     } catch (error) {
       console.error(error);
       res

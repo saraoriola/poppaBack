@@ -18,8 +18,11 @@ module.exports = {
             attended: {
                 type: Sequelize.BOOLEAN,
             },
-            feedback: {
-                type: Sequelize.STRING,
+            feedback_id: {
+                type: Sequelize.INTEGER,
+            },
+            leaveTime: {
+                type: Sequelize.DATE,
             },
             createdAt: {
                 allowNull: false,
