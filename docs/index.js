@@ -3,7 +3,7 @@ const components = require("./components");
 const users = require("./users");
 
 module.exports = {
-  ...config,
+  ...config.definition,
   ...components,
   ...users,
 };
