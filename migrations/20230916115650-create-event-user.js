@@ -15,8 +15,8 @@ module.exports = {
             user_id: {
                 type: Sequelize.INTEGER,
             },
-            attended: {
-                type: Sequelize.BOOLEAN,
+            arriveTime: {
+                type: Sequelize.DATE,
             },
             feedback_id: {
                 type: Sequelize.INTEGER,
