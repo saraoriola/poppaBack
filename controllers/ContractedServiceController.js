@@ -1,3 +1,4 @@
+const { Sequelize } = require("../models/index.js");
 const ContractedService = require("../models/Contracted_service");
 
 const ContractedServiceController = {
