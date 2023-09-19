@@ -1,10 +1,9 @@
-const { Sequelize } = require("../models/index.js");
-const ContractedService = require("../models/Contracted_service");
+const { Contracted_service } = require("../models/index");
 
 const ContractedServiceController = {
   async getAllContractedServices(req, res) {
     try {
-      const getAllContractedServices = await ContractedService.findAll();
+      const getAllContractedServices = await Contracted_service.findAll();
       res.status(200).send(getAllContractedServices);
     } catch (error) {
       console.error(error);
@@ -16,7 +15,9 @@ const ContractedServiceController = {
 
   async getContractedServiceById(req, res) {
     try {
-      const contractedService = await ContractedService.findByPk(req.params.id);
+      const contractedService = await Contracted_service.findByPk(
+        req.params.id
+      );
 
       if (!contractedService) {
         res.status(404).send({ message: "Servicio contratado no encontrado" });
@@ -34,7 +35,7 @@ const ContractedServiceController = {
   // NOTE: Mirar para vincular las tablas de service_id, event_id, service_company_id
   async createContractedService(req, res) {
     try {
-      const contractedService = await ContractedService.create(...req.body);
+      const contractedService = await Contracted_service.create(...req.body);
       res
         .status(201)
         .send({ message: "Servicio contratado con éxito", contractedService });
@@ -51,7 +52,7 @@ const ContractedServiceController = {
       const contractedServiceId = req.params.id;
       const contractedServiceUpdated = req.body;
 
-      await ContractedService.update(contractedServiceUpdated, {
+      await Contracted_service.update(contractedServiceUpdated, {
         where: { id: contractedServiceId },
       });
 
@@ -75,7 +76,7 @@ const ContractedServiceController = {
 
   async deleteContractedService(req, res) {
     try {
-      const contractedService = await ContractedService.destroy({
+      const contractedService = await Contracted_service.destroy({
         where: {
           id: req.params.id,
         },
