@@ -90,6 +90,38 @@ const EventController = {
     }
   },
 
+  async getByDateAsc(req, res) {
+    try {
+      const sortEvents = await Event.findAll({ order: [["dateTime", "ASC"]] });
+
+      res.status(200).send({
+        message: "Lista de eventos obtenida exitosamente",
+        sortEvents,
+      });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Hubo un problema con el servidor", error });
+    }
+  },
+
+  async getByDateDesc(req, res) {
+    try {
+      const sortEvents = await Event.findAll({ order: [["dateTime", "DESC"]] });
+
+      res.status(200).send({
+        message: "Lista de eventos obtenida exitosamente",
+        sortEvents,
+      });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Hubo un problema con el servidor", error });
+    }
+  },
+
   async createEvent(req, res) {
     try {
       const event = await Event.create(req.body);

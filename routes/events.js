@@ -13,6 +13,8 @@ router.get(
   authentication,
   EventController.getEventByTitle
 );
+router.get("/getbydateasc", authentication, EventController.getByDateAsc);
+router.get("/getbydatedesc", authentication, EventController.getByDateDesc);
 
 router.post("/create", authentication, EventController.createEvent);
 
