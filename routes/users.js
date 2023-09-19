@@ -9,12 +9,9 @@ router.get("/getbyid/:id", UserController.getById);
 router.get("/name/:name", UserController.getUserByName);
 router.get("/confirm/:emailToken", UserController.confirm);
 router.get("/recoverPassword/:email", UserController.recoverPassword);
+router.get( "/getuserconnected",authentication, UserController.getUserConnected);
 
-router.post(
-  "/register",
-  uploadUserImages.single("avatar"),
-  UserController.register
-);
+router.post("/register",uploadUserImages.single("avatar"),UserController.register);
 router.post("/login", UserController.login);
 
 router.put("/id/:id", UserController.update);

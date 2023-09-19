@@ -49,6 +49,22 @@ const UserController = {
       });
     }
   },
+  async getUserConnected(req, res) {
+    try {
+      const getUser = await User.findOne({
+        where: {
+          id: req.user.id,
+        }
+      })
+      if (!getUser) {
+        return res.status(404).send({ message: "Usuario no conectado" });
+      }
+      res.send({ message: "User", getUser });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Intente novamente", error });
+    }
+  },
   async register(req, res, next) {
     try {
       const { password } = req.body;
@@ -59,9 +75,7 @@ const UserController = {
             "La contraseña debe tener un mínimo de 8 carácters, una mayúscula, una minúscula y un carácter especial",
         });
       }
-
       const hashedPassword = await bcrypt.hash(password, 10);
-
       const user = await User.create({
         ...req.body,
         password: hashedPassword,
