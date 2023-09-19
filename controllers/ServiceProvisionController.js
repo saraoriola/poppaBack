@@ -1,10 +1,12 @@
+const { Service_Provision } = require("../models/index.js"); //Esto estaba importado directamente desde la carpeta del modelo, debemos importar desde model index.
+
 const ServiceProvision = require("../models/Service_provision");
 const { Op } = require("sequelize");
 
 const ServiceProvisionController = {
   async getAllServices(req, res) {
     try {
-      const getAllServices = await ServiceProvision.findAll();
+      const getAllServices = await Service_Provision.findAll();
       res.status(200).send(getAllServices);
     } catch (error) {
       console.error(error);
@@ -16,7 +18,7 @@ const ServiceProvisionController = {
 
   async getServiceById(req, res) {
     try {
-      const service = await ServiceProvision.findByPk(req.params.id);
+      const service = await Service_Provision.findByPk(req.params.id);
 
       if (!service) {
         res.status(404).send({ message: "Servicio no encontrado" });
@@ -34,7 +36,7 @@ const ServiceProvisionController = {
 
   async getServiceByName(req, res) {
     try {
-      const service = await ServiceProvision.findAll({
+      const service = await Service_Provision.findAll({
         where: { name: { [Op.like]: `%${req.params.name}%` } },
       });
 
@@ -54,7 +56,7 @@ const ServiceProvisionController = {
 
   async createService(req, res) {
     try {
-      const service = await ServiceProvision.create(req.body);
+      const service = await Service_Provision.create(req.body);
       res.status(201).send({ message: "Servicio creado con éxito", service });
     } catch (error) {
       console.error(error);
@@ -69,7 +71,7 @@ const ServiceProvisionController = {
       const serviceId = req.params.id;
       const serviceUpdated = req.body;
 
-      await ServiceProvision.update(serviceUpdated, {
+      await Service_Provision.update(serviceUpdated, {
         where: { id: serviceId },
       });
 
@@ -90,7 +92,7 @@ const ServiceProvisionController = {
 
   async deleteService(req, res) {
     try {
-      const service = await ServiceProvision.destroy({
+      const service = await Service_Provision.destroy({
         where: {
           id: req.params.id,
         },
