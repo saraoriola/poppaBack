@@ -122,6 +122,38 @@ const EventController = {
     }
   },
 
+  async getByDurationAsc(req, res) {
+    try {
+      const sortEvents = await Event.findAll({ order: [["duration_min", "ASC"]] });
+
+      res.status(200).send({
+        message: "Lista de eventos obtenida exitosamente",
+        sortEvents,
+      });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Hubo un problema con el servidor", error });
+    }
+  },
+
+  async getByDurationDesc(req, res) {
+    try {
+      const sortEvents = await Event.findAll({ order: [["duration_min", "DESC"]] });
+
+      res.status(200).send({
+        message: "Lista de eventos obtenida exitosamente",
+        sortEvents,
+      });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Hubo un problema con el servidor", error });
+    }
+  },
+
   async createEvent(req, res) {
     try {
       const event = await Event.create(req.body);

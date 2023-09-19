@@ -15,6 +15,16 @@ router.get(
 );
 router.get("/getbydateasc", authentication, EventController.getByDateAsc);
 router.get("/getbydatedesc", authentication, EventController.getByDateDesc);
+router.get(
+  "/getbydurationasc",
+  authentication,
+  EventController.getByDurationAsc
+);
+router.get(
+  "/getbydurationdesc",
+  authentication,
+  EventController.getByDurationDesc
+);
 
 router.post("/create", authentication, EventController.createEvent);
 
