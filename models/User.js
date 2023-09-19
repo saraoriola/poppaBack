@@ -55,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
             course: DataTypes.STRING,
             interest: DataTypes.STRING,
             catchment: DataTypes.STRING,
+            
         },
         {
             sequelize,

@@ -1,6 +1,6 @@
 const express = require("express");
 const UserController = require("../controllers/UserController");
-const { authentication } = require("../middleware/authentication");
+const { authentication, isAdmin } = require("../middleware/authentication");
 const { uploadUserImages } = require("../middleware/multer");
 const router = express.Router();
 
