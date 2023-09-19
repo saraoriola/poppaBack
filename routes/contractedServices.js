@@ -9,7 +9,7 @@ router.get(
   contractedServices.getAllContractedServices
 );
 router.get(
-  "/getbyid",
+  "/getbyid/:id",
   authentication,
   contractedServices.getContractedServiceById
 );
@@ -21,13 +21,15 @@ router.post(
 );
 
 router.put(
-  "/update",
+  "/update/:id",
   authentication,
   contractedServices.updateContractedService
 );
 
 router.delete(
-  "/delete",
+  "/delete/:id",
   authentication,
   contractedServices.deleteContractedService
 );
+
+module.exports = router;

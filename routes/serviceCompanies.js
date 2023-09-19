@@ -2,41 +2,41 @@ const express = require("express");
 
 const router = express.Router();
 
-const ServiceProvisionController = require("../controllers/ServiceProvisionController");
+const ServiceCompanyController = require("../controllers/ServiceCompanyController");
 const { authentication } = require("../middleware/authentication");
 
 router.get(
   "/getall",
   authentication,
-  ServiceProvisionController.getAllServices
+  ServiceCompanyController.getAllServiceCompanies
 );
 router.get(
   "/getbyid/:id",
   authentication,
-  ServiceProvisionController.getServiceById
+  ServiceCompanyController.getServiceCompanyById
 );
 router.get(
   "/getbyname/:name",
   authentication,
-  ServiceProvisionController.getServiceByName
+  ServiceCompanyController.getAllServiceCompaniesByName
 );
 
 router.post(
   "/create",
   authentication,
-  ServiceProvisionController.createService
+  ServiceCompanyController.createServiceCompany
 );
 
 router.put(
   "/update/:id",
   authentication,
-  ServiceProvisionController.updateService
+  ServiceCompanyController.updateServiceCompany
 );
 
 router.delete(
   "/delete/:id",
   authentication,
-  ServiceProvisionController.deleteService
+  ServiceCompanyController.deleteServiceCompany
 );
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const Organization = require("../models/Organization");
+const { Organization } = require("../models/index");
 
 const OrganizationController = {
   async createOrganization(req, res) {
@@ -16,24 +16,37 @@ const OrganizationController = {
     }
   },
 
-    async updateOrganization(req, res) {
-        try {
-            const { organizationId } = req.params;
+  async updateOrganization(req, res) {
+    try {
+      const { organizationId } = req.params;
 
-            const updatedOrganization = await Organization.findByPk(organizationId); // ERROR SALTA AQUÍ
+      const updatedOrganization = await Organization.findByPk(organizationId); // ERROR SALTA AQUÍ
 
-            if (!updatedOrganization) {
-                return res.status(404).send({ message: "No se encontró ninguna organización para actualizar" });
-            }
+      if (!updatedOrganization) {
+        return res
+          .status(404)
+          .send({
+            message: "No se encontró ninguna organización para actualizar",
+          });
+      }
 
-            await updatedOrganization.update(req.body);
+      await updatedOrganization.update(req.body);
 
-            res.status(200).send({ message: "Organización actualizada exitosamente", organization: updatedOrganization });
-        } catch (error) {
-            console.error(error);
-            res.status(500).send({ message: "Ha habido un problema al actualizar la organización" });
-        }
-    },
+      res
+        .status(200)
+        .send({
+          message: "Organización actualizada exitosamente",
+          organization: updatedOrganization,
+        });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({
+          message: "Ha habido un problema al actualizar la organización",
+        });
+    }
+  },
 };
 
 module.exports = OrganizationController;
