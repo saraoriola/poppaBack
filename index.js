@@ -15,11 +15,13 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
-//url fixed
+//NOTE: url fixed
 app.use("/users", require("./routes/users"));
 app.use("/events", require("./routes/events"));
 app.use("/organizations", require("./routes/organizations"));
 app.use("/serviceprovisions", require("./routes/serviceProvisions"));
+app.use("/contractedservices", require("./routes/contractedServices"));
+app.use("/servicecompanies", require("./routes/serviceCompanies"));
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 

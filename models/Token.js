@@ -11,15 +11,15 @@ module.exports = (sequelize, DataTypes) => {
         }
     }
     Token.init(
-      {
-        User_id: DataTypes.INTEGER,
-        token: DataTypes.STRING,
-      },
-      {
-        sequelize,
-        modelName: "Token",
-        tableName: "tokens",
-      }
+        {
+            User_id: DataTypes.INTEGER,
+            token: DataTypes.STRING,
+        },
+        {
+            sequelize,
+            modelName: "Token",
+            tableName: "Tokens",
+        }
     );
     return Token;
 };
