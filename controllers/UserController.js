@@ -44,7 +44,7 @@ const UserController = {
   async create(req, res, next) {
     try {
       const password = await bcrypt.hash(req.body.password, 10);
-      const user = await User.create({ ...req.body, password, confirmed: false });
+      const user = await User.create({ ...req.body, password, confirmed: false, avatar: req.file?.filename });
       const emailToken = jwt.sign({ email: req.body.email }, jwt_secret, { expiresIn: '48h' })
       const url = 'http://localhost:3001/users/confirm/' + emailToken
       await transporter.sendMail({
