@@ -2,6 +2,7 @@ const { Service_Provision } = require("../models/index.js"); //Esto estaba impor
 const { Op } = require("sequelize");
 
 const ServiceProvisionController = {
+  // NOTE: OKAY
   async getAllServices(req, res) {
     try {
       const getAllServices = await Service_Provision.findAll();
@@ -14,15 +15,16 @@ const ServiceProvisionController = {
     }
   },
 
+  // NOTE: OKAY
   async getServiceById(req, res) {
     try {
       const service = await Service_Provision.findByPk(req.params.id);
 
       if (!service) {
         res.status(404).send({ message: "Servicio no encontrado" });
+      } else {
+        res.status(200).send(service);
       }
-
-      res.status(200).send(service);
     } catch (error) {
       console.error(error);
       res.status(500).send({
@@ -32,17 +34,18 @@ const ServiceProvisionController = {
     }
   },
 
+  // NOTE: OKAY
   async getServiceByName(req, res) {
     try {
       const service = await Service_Provision.findAll({
         where: { name: { [Op.like]: `%${req.params.name}%` } },
       });
 
-      if (!service) {
+      if (service.length === 0 || !service) {
         res.status(404).send({ message: "Servicio no encontrado" });
+      } else {
+        res.status(200).send(service);
       }
-
-      res.status(200).send(service);
     } catch (error) {
       console.error(error);
       res.status(500).send({
@@ -52,6 +55,7 @@ const ServiceProvisionController = {
     }
   },
 
+  // NOTE: OKAY
   async createService(req, res) {
     try {
       const service = await Service_Provision.create(req.body);
@@ -64,30 +68,33 @@ const ServiceProvisionController = {
     }
   },
 
+  // NOTE: OKAY
   async updateService(req, res) {
     try {
-      const serviceId = req.params.id;
-      const serviceUpdated = req.body;
+      const { id } = req.params;
+      const serviceUpdated = await Service_Provision.findByPk(id);
 
-      await Service_Provision.update(serviceUpdated, {
-        where: { id: serviceId },
-      });
-
-      if (!serviceId) {
-        res.status(404).send({ message: "Servicio no encontrado" });
+      if (!serviceUpdated) {
+        return res
+          .status(404)
+          .send({ message: "No se encontró ningún Servicio" });
       }
 
-      res
-        .status(200)
-        .send({ message: "Servicio actualizado con éxito" }, serviceUpdated);
+      await serviceUpdated.update(req.body);
+
+      res.status(200).send({
+        message: "Servicio actualizado con éxito",
+        event: serviceUpdated,
+      });
     } catch (error) {
       console.error(error);
       res
         .status(500)
-        .send({ message: "Hubo un problema con el servidor", error });
+        .send({ message: "Ha habido un problema al actualizar el servicio" });
     }
   },
 
+  // NOTE: OKAY
   async deleteService(req, res) {
     try {
       const service = await Service_Provision.destroy({
@@ -98,9 +105,9 @@ const ServiceProvisionController = {
 
       if (!service) {
         res.status(404).send({ message: "Servicio no encontrado" });
+      } else {
+        res.status(200).send({ message: "Servicio eliminado con éxito" });
       }
-
-      res.status(204).send({ message: "Servicio eliminado con éxito" });
     } catch (error) {
       console.error(error);
       res

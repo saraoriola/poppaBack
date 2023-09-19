@@ -2,6 +2,7 @@ const { Op } = require("sequelize");
 const { Service_company } = require("../models/index");
 
 const ServiceCompanyController = {
+  // NOTE: OKAY
   async getAllServiceCompanies(req, res) {
     try {
       const getAllServiceCompanies = await Service_company.findAll();
@@ -14,17 +15,20 @@ const ServiceCompanyController = {
     }
   },
 
+  // NOTE: OKAY
   async getServiceCompanyById(req, res) {
     try {
-      const serviceCompany = await Service_company.findByPk(req.params.id);
+      const { id } = req.params;
+
+      const serviceCompany = await Service_company.findByPk(id);
 
       if (!serviceCompany) {
         res
           .status(404)
           .send({ message: "Compañía de servicios no encontrada" });
+      } else {
+        res.status(200).send(serviceCompany);
       }
-
-      res.status(200).send(serviceCompany);
     } catch (error) {
       res.status(500).send({
         message: "Hubo un problema con el servidor",
@@ -33,19 +37,22 @@ const ServiceCompanyController = {
     }
   },
 
+  // NOTE: OKAY
   async getAllServiceCompaniesByName(req, res) {
     try {
+      const { name } = req.params;
+
       const serviceCompanies = await Service_company.findAll({
-        where: { name: { [Op.like]: `%${req.params.name}%` } },
+        where: { name: { [Op.like]: `%${name}%` } },
       });
 
-      if (!serviceCompanies) {
+      if (serviceCompanies.length === 0 || !serviceCompanies) {
         res
           .status(404)
           .send({ message: "Compañía de servicios no encontrada" });
+      } else {
+        res.status(200).send(serviceCompanies);
       }
-
-      res.status(200).send(serviceCompanies);
     } catch (error) {
       console.error(error);
       res.status(500).send({
@@ -55,6 +62,7 @@ const ServiceCompanyController = {
     }
   },
 
+  // NOTE: OKAY
   async createServiceCompany(req, res) {
     try {
       const serviceCompany = await Service_company.create(req.body);
@@ -70,27 +78,26 @@ const ServiceCompanyController = {
     }
   },
 
+  // NOTE: OKAY
   async updateServiceCompany(req, res) {
     try {
-      const serviceCompanyId = req.params.id;
+      const { id } = req.params;
       const serviceCompanyUpdated = req.body;
 
       await Service_company.update(serviceCompanyUpdated, {
-        where: { id: serviceCompanyId },
+        where: { id: id },
       });
 
-      if (!serviceCompanyId) {
+      if (!id) {
         res
           .status(404)
           .send({ message: "Compañía de servicios no encontrada" });
+      } else {
+        res.status(200).send({
+          message: "Compañía de servicios actualizada con éxito",
+          serviceCompanyUpdated,
+        });
       }
-
-      res
-        .status(200)
-        .send(
-          { message: "Compañía de servicios actualizada con éxito" },
-          serviceCompanyUpdated
-        );
     } catch (error) {
       console.error(error);
       res
@@ -99,6 +106,7 @@ const ServiceCompanyController = {
     }
   },
 
+  // NOTE: OKAY
   async deleteServiceCompany(req, res) {
     try {
       const serviceCompany = await Service_company.destroy({
@@ -111,11 +119,11 @@ const ServiceCompanyController = {
         res
           .status(404)
           .send({ message: "Compañía de servicios no encontrada" });
+      } else {
+        res
+          .status(200)
+          .send({ message: "Compañía de servicios eliminada con éxito" });
       }
-
-      res
-        .status(204)
-        .send({ message: "Compañía de servicios eliminada con éxito" });
     } catch (error) {
       console.error(error);
       res

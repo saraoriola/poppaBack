@@ -1,6 +1,7 @@
 const { Event } = require("../models/index.js");
 
 const EventController = {
+  //NOTE: OKAY
   async create(req, res) {
     try {
       const event = await Event.create(req.body);
@@ -14,11 +15,11 @@ const EventController = {
     }
   },
 
+  //NOTE: OKAY
   async updateEvent(req, res) {
     try {
-      const { eventId } = req.params;
-
-      const updatedEvent = await Event.findByPk(eventId);
+      const { id } = req.params;
+      const updatedEvent = await Event.findByPk(id);
 
       if (!updatedEvent) {
         return res
@@ -40,6 +41,7 @@ const EventController = {
     }
   },
 
+  //NOTE: OKAY
   async getAllEvents(req, res) {
     try {
       const events = await Event.findAll();
@@ -55,11 +57,12 @@ const EventController = {
     }
   },
 
+  //NOTE: OKAY
   async getEventById(req, res) {
     try {
-      const { eventId } = req.params;
+      const { id } = req.params;
 
-      const event = await Event.findByPk(eventId);
+      const event = await Event.findByPk(id);
 
       if (!event) {
         return res.status(404).send({ message: "Evento no encontrado" });
@@ -75,11 +78,13 @@ const EventController = {
       });
     }
   },
+
+  //NOTE: OKAY
   async deleteEvent(req, res) {
     try {
-      const { eventId } = req.params;
+      const { id } = req.params;
 
-      const deletedEvent = await Event.findByPk(eventId);
+      const deletedEvent = await Event.findByPk(id);
 
       if (!deletedEvent) {
         return res

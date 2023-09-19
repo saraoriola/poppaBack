@@ -23,9 +23,9 @@ const ContractedServiceController = {
 
       console.warn(req.paramas.id);
 
-      // if (!contractedService) {
-      //   res.status(404).send({ message: "Servicio contratado no encontrado" });
-      // }
+      if (!contractedService) {
+        res.status(404).send({ message: "Servicio contratado no encontrado" });
+      }
 
       res.status(200).send(contractedService);
     } catch (error) {
