@@ -1,7 +1,6 @@
 const { Contracted_service } = require("../models/index.js");
 
 const ContractedServiceController = {
-  // NOTE: OKAY
   async getAllContractedServices(req, res) {
     try {
       const getAllContractedServices = await Contracted_service.findAll();
@@ -14,21 +13,22 @@ const ContractedServiceController = {
     }
   },
 
-  // FIXME: No funciona este endpoint
   async getContractedServiceById(req, res) {
+    const { id } = req.params;
     try {
-      const contractedService = await Contracted_service.findByPk(
-        req.params.id
-      );
-
-      console.warn(req.paramas.id);
+      const contractedService = await Contracted_service.findOne({
+        where: { id: id },
+      });
 
       if (!contractedService) {
-        res.status(404).send({ message: "Servicio contratado no encontrado" });
+        return res
+          .status(404)
+          .send({ message: "Servicio contratado no encontrado" });
+      } else {
+        return res.status(200).send(contractedService);
       }
-
-      res.status(200).send(contractedService);
     } catch (error) {
+      console.error(error);
       res.status(500).send({
         message: "Hubo un problema con el servidor",
         error,
@@ -51,7 +51,6 @@ const ContractedServiceController = {
     }
   },
 
-  // NOTE: OKAY
   async updateContractedService(req, res) {
     try {
       const contractedServiceId = req.params.id;
@@ -77,7 +76,6 @@ const ContractedServiceController = {
     }
   },
 
-  // NOTE: OKAY
   async deleteContractedService(req, res) {
     try {
       const contractedService = await Contracted_service.destroy({

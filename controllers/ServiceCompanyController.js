@@ -2,7 +2,6 @@ const { Op } = require("sequelize");
 const { Service_company } = require("../models/index");
 
 const ServiceCompanyController = {
-  // NOTE: OKAY
   async getAllServiceCompanies(req, res) {
     try {
       const getAllServiceCompanies = await Service_company.findAll();
@@ -15,7 +14,6 @@ const ServiceCompanyController = {
     }
   },
 
-  // NOTE: OKAY
   async getServiceCompanyById(req, res) {
     try {
       const { id } = req.params;
@@ -37,7 +35,6 @@ const ServiceCompanyController = {
     }
   },
 
-  // NOTE: OKAY
   async getAllServiceCompaniesByName(req, res) {
     try {
       const { name } = req.params;
@@ -62,7 +59,6 @@ const ServiceCompanyController = {
     }
   },
 
-  // NOTE: OKAY
   async createServiceCompany(req, res) {
     try {
       const serviceCompany = await Service_company.create(req.body);
@@ -78,7 +74,6 @@ const ServiceCompanyController = {
     }
   },
 
-  // NOTE: OKAY
   async updateServiceCompany(req, res) {
     try {
       const { id } = req.params;
@@ -106,7 +101,6 @@ const ServiceCompanyController = {
     }
   },
 
-  // NOTE: OKAY
   async deleteServiceCompany(req, res) {
     try {
       const serviceCompany = await Service_company.destroy({

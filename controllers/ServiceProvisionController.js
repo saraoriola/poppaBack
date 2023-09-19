@@ -1,11 +1,8 @@
-
 const { Service_Provision } = require("../models/index.js"); //Esto estaba importado directamente desde la carpeta del modelo, debemos importar desde model index.
 
 const { Op } = require("sequelize");
 
 const ServiceProvisionController = {
-
-  // NOTE: OKAY
   async getAllServices(req, res) {
     try {
       const getAllServices = await Service_Provision.findAll();
@@ -18,15 +15,16 @@ const ServiceProvisionController = {
     }
   },
 
-  // NOTE: OKAY
   async getServiceById(req, res) {
     try {
-      const service = await Service_Provision.findByPk(req.params.id);
+      const { id } = req.params;
+
+      const service = await Service_Provision.findByPk(id);
 
       if (!service) {
-        res.status(404).send({ message: "Servicio no encontrado" });
+        return res.status(404).send({ message: "Servicio no encontrado" });
       } else {
-        res.status(200).send(service);
+        return res.status(200).send(service);
       }
     } catch (error) {
       console.error(error);
@@ -37,7 +35,6 @@ const ServiceProvisionController = {
     }
   },
 
-  // NOTE: OKAY
   async getServiceByName(req, res) {
     try {
       const service = await Service_Provision.findAll({
@@ -58,7 +55,6 @@ const ServiceProvisionController = {
     }
   },
 
-  // NOTE: OKAY
   async createService(req, res) {
     try {
       const service = await Service_Provision.create(req.body);
@@ -71,7 +67,6 @@ const ServiceProvisionController = {
     }
   },
 
-  // NOTE: OKAY
   async updateService(req, res) {
     try {
       const { id } = req.params;
@@ -97,7 +92,6 @@ const ServiceProvisionController = {
     }
   },
 
-  // NOTE: OKAY
   async deleteService(req, res) {
     try {
       const service = await Service_Provision.destroy({
