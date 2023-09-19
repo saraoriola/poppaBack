@@ -55,6 +55,9 @@ module.exports = {
             interest: {
                 type: Sequelize.STRING,
             },
+            gender: {
+                type: Sequelize.STRING,
+            },
             catchment: {
                 type: Sequelize.STRING,
             },
