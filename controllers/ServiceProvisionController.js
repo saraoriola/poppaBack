@@ -3,7 +3,6 @@ const { Service_Provision } = require("../models/index.js"); //Esto estaba impor
 const { Op } = require("sequelize");
 
 const ServiceProvisionController = {
-  // NOTE: OKAY
   async getAllServices(req, res) {
     try {
       const getAllServices = await Service_Provision.findAll();
@@ -16,7 +15,6 @@ const ServiceProvisionController = {
     }
   },
 
-  // NOTE: OKAY
   async getServiceById(req, res) {
     try {
       const { id } = req.params;
@@ -37,7 +35,6 @@ const ServiceProvisionController = {
     }
   },
 
-  // NOTE: OKAY
   async getServiceByName(req, res) {
     try {
       const service = await Service_Provision.findAll({
@@ -58,7 +55,6 @@ const ServiceProvisionController = {
     }
   },
 
-  // NOTE: OKAY
   async createService(req, res) {
     try {
       const service = await Service_Provision.create(req.body);
@@ -96,7 +92,6 @@ const ServiceProvisionController = {
     }
   },
 
-  // NOTE: OKAY
   async deleteService(req, res) {
     try {
       const service = await Service_Provision.destroy({

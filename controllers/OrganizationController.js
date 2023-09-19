@@ -1,7 +1,6 @@
 const { Organization } = require("../models/index");
 
 const OrganizationController = {
-  //NOTE: OKAY
   async createOrganization(req, res) {
     try {
       const organization = await Organization.create(req.body);
@@ -17,7 +16,6 @@ const OrganizationController = {
     }
   },
 
-  //NOTE: OKAY
   async updateOrganization(req, res) {
     try {
       const { id } = req.params;

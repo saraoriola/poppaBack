@@ -1,7 +1,6 @@
 const { Event } = require("../models/index.js");
 
 const EventController = {
-  //NOTE: OKAY
   async create(req, res) {
     try {
       const event = await Event.create(req.body);
@@ -15,7 +14,6 @@ const EventController = {
     }
   },
 
-  //NOTE: OKAY
   async updateEvent(req, res) {
     try {
       const { id } = req.params;
@@ -41,7 +39,6 @@ const EventController = {
     }
   },
 
-  //NOTE: OKAY
   async getAllEvents(req, res) {
     try {
       const events = await Event.findAll();
@@ -57,7 +54,6 @@ const EventController = {
     }
   },
 
-  //NOTE: OKAY
   async getEventById(req, res) {
     try {
       const { id } = req.params;
@@ -79,7 +75,6 @@ const EventController = {
     }
   },
 
-  //NOTE: OKAY
   async deleteEvent(req, res) {
     try {
       const { id } = req.params;

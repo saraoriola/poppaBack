@@ -51,7 +51,6 @@ const ContractedServiceController = {
     }
   },
 
-  // NOTE: OKAY
   async updateContractedService(req, res) {
     try {
       const contractedServiceId = req.params.id;
@@ -77,7 +76,6 @@ const ContractedServiceController = {
     }
   },
 
-  // NOTE: OKAY
   async deleteContractedService(req, res) {
     try {
       const contractedService = await Contracted_service.destroy({
