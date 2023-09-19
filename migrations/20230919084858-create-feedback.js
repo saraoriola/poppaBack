@@ -2,27 +2,21 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable("EventUsers", {
+        await queryInterface.createTable("Feedbacks", {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            event_id: {
+            valoration: {
                 type: Sequelize.INTEGER,
             },
-            user_id: {
+            eventUser_id: {
                 type: Sequelize.INTEGER,
             },
-            attended: {
-                type: Sequelize.BOOLEAN,
-            },
-            feedback_id: {
-                type: Sequelize.INTEGER,
-            },
-            leaveTime: {
-                type: Sequelize.DATE,
+            comments: {
+                type: Sequelize.STRING,
             },
             createdAt: {
                 allowNull: false,
@@ -35,6 +29,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable("EventUsers");
+        await queryInterface.dropTable("Feedbacks");
     },
 };
