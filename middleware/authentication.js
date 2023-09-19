@@ -28,14 +28,13 @@ const authentication = async (req, res, next) => {
   }
 };
 
+// NOTE: Limpiar este código, se duplica aquí
 const isAdmin = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     const payload = jwt.verify(token, jwt_secret);
     const user = await User.findByPk(payload.id);
     const role = await Role.findOne({ where: { User_id: user.id } });
-
-    console.warn("*****Esto es el clg:", role.type);
 
     const admins = ["admin", "superadmin"];
     if (!admins.includes(role.type)) {
