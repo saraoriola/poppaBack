@@ -12,7 +12,6 @@ const ContractedServiceController = {
         .send({ message: "Hay un problema con el servidor", error });
     }
   },
-
   async getContractedServiceById(req, res) {
     const { id } = req.params;
     try {
@@ -35,7 +34,6 @@ const ContractedServiceController = {
       });
     }
   },
-
   // NOTE: Mirar para vincular las tablas de service_id, event_id, service_company_id
   async createContractedService(req, res) {
     try {
@@ -50,7 +48,6 @@ const ContractedServiceController = {
         .send({ message: "Hubo un problema con el servidor", error });
     }
   },
-
   async updateContractedService(req, res) {
     try {
       const contractedServiceId = req.params.id;
@@ -75,7 +72,6 @@ const ContractedServiceController = {
         .send({ message: "Hubo un problema con el servidor", error });
     }
   },
-
   async deleteContractedService(req, res) {
     try {
       const contractedService = await Contracted_service.destroy({
