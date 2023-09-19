@@ -53,6 +53,7 @@ module.exports = (sequelize, DataTypes) => {
             confirmed: DataTypes.BOOLEAN,
             file: DataTypes.STRING,
             course: DataTypes.STRING,
+            gender: DataTypes.STRING,
             interest: DataTypes.STRING,
             catchment: DataTypes.STRING,
             
