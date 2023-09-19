@@ -1,4 +1,4 @@
-const { Contracted_service } = require("../models/index");
+const { Contracted_service } = require("../models/index.js");
 
 const ContractedServiceController = {
   async getAllContractedServices(req, res) {
@@ -35,7 +35,7 @@ const ContractedServiceController = {
   // NOTE: Mirar para vincular las tablas de service_id, event_id, service_company_id
   async createContractedService(req, res) {
     try {
-      const contractedService = await Contracted_service.create(...req.body);
+      const contractedService = await Contracted_service.create(req.body);
       res
         .status(201)
         .send({ message: "Servicio contratado con éxito", contractedService });

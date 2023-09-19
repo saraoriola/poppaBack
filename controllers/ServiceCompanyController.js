@@ -1,10 +1,10 @@
 const { Op } = require("sequelize");
-const ServiceCompany = require("../models/Service_company");
+const { Service_company } = require("../models/index");
 
 const ServiceCompanyController = {
   async getAllServiceCompanies(req, res) {
     try {
-      const getAllServiceCompanies = await ServiceCompany.findAll();
+      const getAllServiceCompanies = await Service_company.findAll();
       res.status(200).send(getAllServiceCompanies);
     } catch (error) {
       console.error(error);
@@ -16,7 +16,7 @@ const ServiceCompanyController = {
 
   async getServiceCompanyById(req, res) {
     try {
-      const serviceCompany = await ServiceCompany.findByPk(req.params.id);
+      const serviceCompany = await Service_company.findByPk(req.params.id);
 
       if (!serviceCompany) {
         res
@@ -35,7 +35,7 @@ const ServiceCompanyController = {
 
   async getAllServiceCompaniesByName(req, res) {
     try {
-      const serviceCompanies = await ServiceCompany.findAll({
+      const serviceCompanies = await Service_company.findAll({
         where: { name: { [Op.like]: `%${req.params.name}%` } },
       });
 
@@ -57,7 +57,7 @@ const ServiceCompanyController = {
 
   async createServiceCompany(req, res) {
     try {
-      const serviceCompany = await ServiceCompany.create(...req.body);
+      const serviceCompany = await Service_company.create(req.body);
       res.status(201).send({
         message: "Compañía de servicios registrada con éxito",
         serviceCompany,
@@ -75,7 +75,7 @@ const ServiceCompanyController = {
       const serviceCompanyId = req.params.id;
       const serviceCompanyUpdated = req.body;
 
-      await ServiceCompany.update(serviceCompanyUpdated, {
+      await Service_company.update(serviceCompanyUpdated, {
         where: { id: serviceCompanyId },
       });
 
@@ -101,7 +101,7 @@ const ServiceCompanyController = {
 
   async deleteServiceCompany(req, res) {
     try {
-      const serviceCompany = await ServiceCompany.destroy({
+      const serviceCompany = await Service_company.destroy({
         where: {
           id: req.params.id,
         },
