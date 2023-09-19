@@ -1,7 +1,10 @@
+
 const { Service_Provision } = require("../models/index.js"); //Esto estaba importado directamente desde la carpeta del modelo, debemos importar desde model index.
+
 const { Op } = require("sequelize");
 
 const ServiceProvisionController = {
+
   // NOTE: OKAY
   async getAllServices(req, res) {
     try {
