@@ -13,11 +13,12 @@ const ContractedServiceController = {
     }
   },
 
-  // FIXME: No funciona este endpoint
   async getContractedServiceById(req, res) {
     const { id } = req.params;
     try {
-      const contractedService = await Contracted_service.findByPk(id);
+      const contractedService = await Contracted_service.findOne({
+        where: { id: id },
+      });
 
       if (!contractedService) {
         return res
