@@ -1,9 +1,9 @@
-const { Contracted_service } = require("../models/index");
+const { ContractedService } = require("../models/index.js");
 
 const ContractedServiceController = {
   async getAllContractedServices(req, res) {
     try {
-      const getAllContractedServices = await Contracted_service.findAll();
+      const getAllContractedServices = await ContractedService.findAll();
       res.status(200).send(getAllContractedServices);
     } catch (error) {
       console.error(error);
@@ -15,9 +15,7 @@ const ContractedServiceController = {
 
   async getContractedServiceById(req, res) {
     try {
-      const contractedService = await Contracted_service.findByPk(
-        req.params.id
-      );
+      const contractedService = await ContractedService.findByPk(req.params.id);
 
       if (!contractedService) {
         res.status(404).send({ message: "Servicio contratado no encontrado" });
@@ -35,7 +33,7 @@ const ContractedServiceController = {
   // NOTE: Mirar para vincular las tablas de service_id, event_id, service_company_id
   async createContractedService(req, res) {
     try {
-      const contractedService = await Contracted_service.create(...req.body);
+      const contractedService = await ContractedService.create(...req.body);
       res
         .status(201)
         .send({ message: "Servicio contratado con éxito", contractedService });
@@ -52,7 +50,7 @@ const ContractedServiceController = {
       const contractedServiceId = req.params.id;
       const contractedServiceUpdated = req.body;
 
-      await Contracted_service.update(contractedServiceUpdated, {
+      await ContractedService.update(contractedServiceUpdated, {
         where: { id: contractedServiceId },
       });
 
@@ -76,7 +74,7 @@ const ContractedServiceController = {
 
   async deleteContractedService(req, res) {
     try {
-      const contractedService = await Contracted_service.destroy({
+      const contractedService = await ContractedService.destroy({
         where: {
           id: req.params.id,
         },
