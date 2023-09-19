@@ -1,6 +1,7 @@
 const { Contracted_service } = require("../models/index.js");
 
 const ContractedServiceController = {
+  // NOTE: OKAY
   async getAllContractedServices(req, res) {
     try {
       const getAllContractedServices = await Contracted_service.findAll();
@@ -13,15 +14,18 @@ const ContractedServiceController = {
     }
   },
 
+  // FIXME: No funciona este endpoint
   async getContractedServiceById(req, res) {
     try {
       const contractedService = await Contracted_service.findByPk(
         req.params.id
       );
 
-      if (!contractedService) {
-        res.status(404).send({ message: "Servicio contratado no encontrado" });
-      }
+      console.warn(req.paramas.id);
+
+      // if (!contractedService) {
+      //   res.status(404).send({ message: "Servicio contratado no encontrado" });
+      // }
 
       res.status(200).send(contractedService);
     } catch (error) {
@@ -47,6 +51,7 @@ const ContractedServiceController = {
     }
   },
 
+  // NOTE: OKAY
   async updateContractedService(req, res) {
     try {
       const contractedServiceId = req.params.id;
@@ -60,12 +65,10 @@ const ContractedServiceController = {
         res.status(404).send({ message: "Servicio contratado no encontrado" });
       }
 
-      res
-        .status(200)
-        .send(
-          { message: "Servicio contratado actualizado con éxito" },
-          contractedServiceUpdated
-        );
+      res.status(200).send({
+        message: "Servicio contratado actualizado con éxito",
+        contractedServiceUpdated,
+      });
     } catch (error) {
       console.error(error);
       res
@@ -74,6 +77,7 @@ const ContractedServiceController = {
     }
   },
 
+  // NOTE: OKAY
   async deleteContractedService(req, res) {
     try {
       const contractedService = await Contracted_service.destroy({
@@ -87,7 +91,7 @@ const ContractedServiceController = {
       }
 
       res
-        .status(204)
+        .status(200)
         .send({ message: "Servicio contratado eliminado con éxito" });
     } catch (error) {
       console.error(error);
