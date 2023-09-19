@@ -6,7 +6,7 @@ const { Op } = Sequelize;
 const transporter = require("../config/nodemailer");
 require("dotenv").config();
 
-const regExPass = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*]).{8,}$/;
+const regExPass = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
 
 const UserController = {
   async getAll(req, res) {
