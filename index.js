@@ -22,6 +22,7 @@ app.use("/organizations", require("./routes/organizations"));
 app.use("/serviceprovisions", require("./routes/serviceProvisions"));
 app.use("/contractedservices", require("./routes/contractedServices"));
 app.use("/servicecompanies", require("./routes/serviceCompanies"));
+app.use("/location", require("./routes/location"));
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
