@@ -11,7 +11,23 @@ const PORT = process.env.PORT || 3001;
 
 require("dotenv").config();
 
-app.use(cors());
+//NOTE: middleware
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"];
+
+app.use(
+    cors({
+        origin: (origin, callback) => {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error("Origin not allowed by CORS"));
+            }
+        },
+        credentials: true,
+    })
+);
+
+
 app.use(express.json());
 
 app.use("/users", require("./routes/users"));
