@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Event } = require("../models/index.js");
+const { Event, Contracted_service, EventUser } = require("../models/index.js");
 
 const EventController = {
   async getAllEvents(req, res) {
@@ -25,11 +25,40 @@ const EventController = {
 
       if (!event) {
         return res.status(404).send({ message: "Evento no encontrado" });
+      } else {
+        res.status(200).send({
+          message: "Detalles del evento obtenidos exitosamente",
+          event,
+        });
       }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "Ha habido un problema al obtener los detalles del evento",
+      });
+    }
+  },
 
-      res
-        .status(200)
-        .send({ message: "Detalles del evento obtenidos exitosamente", event });
+  //NOTE: Debido a que no está muy claro como están las relaciones, de momento los traigo así.
+  async getEventWithRelations(req, res) {
+    try {
+      const { id } = req.params;
+
+      //TODO: const event = await Event.findByPk(id, { include: Contracted_service });
+      const event = await Event.findByPk(id);
+      const contractedService = await Contracted_service.findAll({
+        where: { event_id: id },
+      });
+      const eventUser = await EventUser.findAll({ where: { event_id: id } });
+
+      if (!event) {
+        return res.status(404).send({ message: "Evento no encontrado" });
+      } else {
+        res.status(200).send({
+          message: "Detalles del evento obtenidos exitosamente",
+          results: { event, contractedService, eventUser },
+        });
+      }
     } catch (error) {
       console.error(error);
       res.status(500).send({
