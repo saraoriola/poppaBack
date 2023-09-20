@@ -29,4 +29,4 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
 app.listen(PORT, () => console.log(`Server created successfully ${PORT}`));
 
-module.export
+module.exports = app; // NOTE: Corregida esta línea
