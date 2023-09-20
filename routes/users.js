@@ -1,14 +1,19 @@
 const express = require("express");
 const UserController = require("../controllers/UserController");
-const { authentication } = require("../middleware/authentication");
+const { authentication, isAdmin } = require("../middleware/authentication");
 const { uploadUserImages } = require("../middleware/multer");
 const router = express.Router();
 
 router.get("/getall", UserController.getAll);
 router.get("/getbyid/:id", UserController.getById);
-router.get("/name/:name", UserController.getUserByName);
+router.get("/getbyname/:name", UserController.getUserByName);
 router.get("/confirm/:emailToken", UserController.confirm);
 router.get("/recoverPassword/:email", UserController.recoverPassword);
+router.get(
+  "/getuserconnected",
+  authentication,
+  UserController.getUserConnected
+);
 
 router.post(
   "/register",
@@ -17,7 +22,7 @@ router.post(
 );
 router.post("/login", UserController.login);
 
-router.put("/id/:id", UserController.update);
+router.put("/update/:id", UserController.update);
 router.put("/resetPassword/:recoverToken", UserController.resetPassword);
 
 router.delete("/logout", authentication, UserController.logout);

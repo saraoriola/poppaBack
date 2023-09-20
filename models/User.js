@@ -56,6 +56,7 @@ module.exports = (sequelize, DataTypes) => {
             gender: DataTypes.STRING,
             interest: DataTypes.STRING,
             catchment: DataTypes.STRING,
+            
         },
         {
             sequelize,

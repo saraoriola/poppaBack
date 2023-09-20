@@ -1,4 +1,4 @@
-const { User, Token, Sequelize } = require("../models/index.js");
+const { User, Token, Sequelize, Role } = require("../models/index.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { jwt_secret } = require("../config/config.json")["development"];
@@ -6,7 +6,7 @@ const { Op } = Sequelize;
 const transporter = require("../config/nodemailer");
 require("dotenv").config();
 
-const regExPass = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*]).{8,}$/;
+const regExPass = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
 
 const UserController = {
   async getAll(req, res) {
@@ -17,6 +17,7 @@ const UserController = {
       console.error(error);
     }
   },
+
   async getById(req, res) {
     try {
       const user = await User.findByPk(req.params.id);
@@ -29,6 +30,7 @@ const UserController = {
       });
     }
   },
+
   async getUserByName(req, res) {
     try {
       const user = await User.findAll({
@@ -49,6 +51,22 @@ const UserController = {
       });
     }
   },
+  async getUserConnected(req, res) {
+    try {
+      const getUser = await User.findOne({
+        where: {
+          id: req.user.id,
+        }
+      })
+      if (!getUser) {
+        return res.status(404).send({ message: "Usuario no conectado" });
+      }
+      res.send({ message: "User", getUser });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Intente novamente", error });
+    }
+  },
   async register(req, res, next) {
     try {
       const { password } = req.body;
@@ -59,18 +77,23 @@ const UserController = {
             "La contraseña debe tener un mínimo de 8 carácters, una mayúscula, una minúscula y un carácter especial",
         });
       }
-
       const hashedPassword = await bcrypt.hash(password, 10);
-
       const user = await User.create({
         ...req.body,
         password: hashedPassword,
         confirmed: false,
         avatar: req.file?.filename,
       });
+
+      const role = await Role.create({
+        User_id: user.id,
+        type: "user",
+      });
+
       const emailToken = jwt.sign({ email: req.body.email }, jwt_secret, {
         expiresIn: "48h",
       });
+
       const url = "http://localhost:3001/users/confirm/" + emailToken;
       await transporter.sendMail({
         to: req.body.email,
@@ -79,12 +102,14 @@ const UserController = {
         <a href="${url}"> Click para confirmar tu registro</a>
         `,
       });
-      res.status(201).send({ message: "Usuario creado con éxito", user });
+
+      res.status(201).send({ message: "Usuario creado con éxito", user, role });
     } catch (error) {
       console.error(error);
       next(error);
     }
   },
+
   async confirm(req, res) {
     try {
       const token = req.params.emailToken;
@@ -102,6 +127,37 @@ const UserController = {
       console.error(error);
     }
   },
+
+  async login(req, res) {
+    try {
+      const user = await User.findOne({
+        where: {
+          email: req.body.email,
+        },
+      });
+      if (!user) {
+        return res
+          .status(400)
+          .send({ msg: "Nombre de usuario o contraseña incorrecta" });
+      }
+      if (!user.confirmed) {
+        return res.status(400).send({ message: "Debes confirmar tu correo" });
+      }
+      const isMatch = bcrypt.compareSync(req.body.password, user.password);
+      if (!isMatch) {
+        return res
+          .status(400)
+          .send({ msg: "Nombre de usuario o contraseña incorrecta" });
+      }
+      const token = jwt.sign({ id: user.id }, jwt_secret);
+      const createdToken = await Token.create({ token, User_id: user.id });
+      res.send({ msg: "Logeado con éxito", token, user, createdToken });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
+  },
+
   async update(req, res) {
     try {
       const UserId = req.params.id;
@@ -121,38 +177,7 @@ const UserController = {
         .send({ message: "Erro al se actualizar el usuario", error });
     }
   },
-  async login(req, res) {
-    try {
-      const user = await User.findOne({
-        where: {
-          email: req.body.email,
-        },
-      });
-      if (!user) {
-        return res
-          .status(400)
-          .send({ msg: "Nombre de usuario o contraseña incorrecta" });
-      }
-      if (!user.confirmed) {
-        return res.status(400).send({ message: "Debes confirmar tu correo" });
-      }
 
-      const isMatch = bcrypt.compareSync(req.body.password, user.password);
-      if (!isMatch) {
-        return res
-          .status(400)
-          .send({ msg: "Nombre de usuario o contraseña incorrecta" });
-      }
-
-      const token = jwt.sign({ id: user.id }, jwt_secret);
-      const createdToken = await Token.create({ token, User_id: user.id });
-
-      res.send({ msg: "Logeado con éxito", token, user, createdToken });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send(error);
-    }
-  },
   async recoverPassword(req, res) {
     try {
       const recoverToken = jwt.sign({ email: req.params.email }, jwt_secret, {
@@ -174,6 +199,7 @@ const UserController = {
       console.error(error);
     }
   },
+
   async resetPassword(req, res) {
     try {
       const { password } = req.body;
@@ -197,6 +223,7 @@ const UserController = {
       console.error(error);
     }
   },
+
   async delete(req, res) {
     try {
       const user = await User.destroy({
@@ -214,6 +241,7 @@ const UserController = {
       res.status(500).send({ message: "Error de servidor.", error });
     }
   },
+
   async logout(req, res) {
     try {
       await Token.destroy({
