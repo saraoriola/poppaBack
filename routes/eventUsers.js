@@ -12,4 +12,8 @@ router.get(
 
 router.post("/create", authentication, EventUserController.createEventUser);
 
+router.put("/update/:id", authentication, EventUserController.updateEventUser);
+
+router.delete("/delete/:id", authentication, EventUserController.deleteEventUser);
+
 module.exports = router;

@@ -58,12 +58,64 @@ const EventUserController = {
 
       res
         .status(201)
-        .send({ message: "Evento creado exitosamente", eventUser });
+        .send({ message: "Usuario añadido al evento exitosamente", eventUser });
     } catch (error) {
       console.error(error);
       res
         .status(500)
         .send({ message: "Ha habido un problema al crear el evento" });
+    }
+  },
+
+  async updateEventUser(req, res) {
+    try {
+      const { id } = req.params;
+      const eventUserUpdated = req.body;
+
+      const eventUser = await EventUser.update(eventUserUpdated, {
+        where: { id: id },
+      });
+
+      if (!eventUser) {
+        return res
+          .status(404)
+          .send({ message: "No se encontró ningún usuario en el evento" });
+      }
+
+      res.status(200).send({
+        message: "Evento actualizado exitosamente",
+        eventUserUpdated,
+      });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Ha habido un problema al actualizar el evento" });
+    }
+  },
+
+  async deleteEventUser(req, res) {
+    try {
+      const { id } = req.params;
+
+      const eventUser = await EventUser.destroy({
+        where: { id: id },
+      });
+
+      if (!eventUser) {
+        return res
+          .status(404)
+          .send({ message: "No se encontró ningún usuario en el evento" });
+      }
+
+      res.status(200).send({
+        message: "Evento eliminado exitosamente",
+      });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Hubo un problema con el servidor" });
     }
   },
 };

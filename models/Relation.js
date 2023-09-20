@@ -5,22 +5,22 @@ module.exports = (sequelize, DataTypes) => {
     class Relation extends Model {
         static associate(models) {
             Relation.belongsTo(models.EventUser, {
-                foreignKey: "eventUser",
-                as: "eventoUsuario",
+                foreignKey: "eventUser_id",
+                as: "eventUser",
             });
         }
     }
 
     Relation.init(
-      {
-        eventUser: DataTypes.INTEGER,
-        name: DataTypes.STRING,
-      },
-      {
-        sequelize,
-        modelName: "Relation",
-        tableName: "relations",
-      }
+        {
+            eventUser_id: DataTypes.INTEGER,
+            name: DataTypes.STRING,
+        },
+        {
+            sequelize,
+            modelName: "Relation",
+            tableName: "Relations",
+        }
     );
 
     return Relation;

@@ -53,10 +53,11 @@ module.exports = (sequelize, DataTypes) => {
             confirmed: DataTypes.BOOLEAN,
             file: DataTypes.STRING,
             course: DataTypes.STRING,
+            country: DataTypes.STRING,
             gender: DataTypes.STRING,
             interest: DataTypes.STRING,
             catchment: DataTypes.STRING,
-            
+            career: DataTypes.STRING,
         },
         {
             sequelize,
