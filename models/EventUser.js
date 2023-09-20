@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     class EventUser extends Model {
         static associate(models) {
             EventUser.hasOne(models.Feedback, {
-                foreignKey: "eventUserId",
+                foreignKey: "eventUser_id",
                 as: "feedback",
             });
         }
