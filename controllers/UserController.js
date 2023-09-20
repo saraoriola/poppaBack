@@ -1,4 +1,10 @@
-const { User, Token, Sequelize, Role } = require("../models/index.js");
+const {
+  User,
+  Token,
+  Sequelize,
+  Role,
+  EventUser,
+} = require("../models/index.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { jwt_secret } = require("../config/config.json")["development"];
@@ -67,6 +73,8 @@ const UserController = {
       res.status(500).send({ message: "Intente novamente", error });
     }
   },
+
+  //NOTE: No se si he de crear un usuario para eventUser o se asigna manualmente
   async register(req, res, next) {
     try {
       const { password } = req.body;
@@ -234,15 +242,74 @@ const UserController = {
 
   async delete(req, res) {
     try {
-      const user = await User.destroy({
+      const { id } = req.params;
+
+      await User.destroy({
         where: {
-          id: req.params.id,
+          id: id,
         },
       });
-      if (user) {
-        res.send({ message: "Usuario borrado con éxito!" });
-      } else {
+
+      await Token.destroy({
+        where: {
+          User_id: id,
+        },
+      });
+
+      await Role.destroy({
+        where: {
+          User_id: id,
+        },
+      });
+
+      await EventUser.destroy({
+        where: {
+          User_id: id,
+        },
+      });
+
+      if (!id) {
         res.status(404).send({ message: "Usuario no encontrado." });
+      } else {
+        res.send({ message: "Usuario borrado con éxito!" });
+      }
+    } catch (error) {
+      res.status(500).send({ message: "Error al eliminar el usuario", error });
+    }
+  },
+
+  async deleteMyAccount(req, res) {
+    try {
+      const user = req.body;
+
+      await User.destroy({
+        where: {
+          id: req.user.id,
+        },
+      });
+
+      await Token.destroy({
+        where: {
+          User_id: req.user.id,
+        },
+      });
+
+      await Role.destroy({
+        where: {
+          User_id: req.user.id,
+        },
+      });
+
+      await EventUser.destroy({
+        where: {
+          User_id: req.user.id,
+        },
+      });
+
+      if (!user) {
+        res.status(404).send({ message: "Usuario no encontrado." });
+      } else {
+        res.status(200).send({ message: "Usuario borrado con éxito!" });
       }
     } catch (error) {
       console.error(error);
