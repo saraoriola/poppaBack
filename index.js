@@ -40,8 +40,12 @@ app.use("/locations", require("./routes/locations"));
 app.use("/roles", require("./routes/roles"));
 app.use("/feedbacks", require("./routes/feedbacks"));
 app.use("/facilities", require("./routes/facilities"));
+app.use("/eventuser", require("./routes/eventUsers"));
+app.use("/type", require("./routes/type"));
+app.use("/educationalcenter", require("./routes/educationalCenter"));
 app.use("/eventusers", require("./routes/eventUsers"));
 app.use("/types", require("./routes/types"));
+
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
