@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // Relación 1:1 con EventUser
             Feedback.belongsTo(models.EventUser, {
-                foreignKey: "eventUserId",
+                foreignKey: "eventUser_id",
                 as: "eventUser",
             });
         }
