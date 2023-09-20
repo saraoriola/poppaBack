@@ -41,6 +41,7 @@ app.use("/roles", require("./routes/roles"));
 app.use("/feedback", require("./routes/feedback"));
 app.use("/facilities", require("./routes/facilities"));
 app.use("/eventuser", require("./routes/eventUsers"));
+app.use("/type", require("./routes/type"));
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 

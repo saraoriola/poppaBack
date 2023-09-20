@@ -41,7 +41,7 @@ const LocationController = {
             if (location) {
                 res.send({ message: "Ubicacion borrada con éxito" })
             } else {
-                res.status(404).send({ message: "Ubicacion encontrada!" })
+                res.status(404).send({ message: "Ubicacion no encontrada!" })
             }
         } catch (error) {
             console.error(error);
