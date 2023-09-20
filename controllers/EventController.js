@@ -38,6 +38,29 @@ const EventController = {
     }
   },
 
+  async getEventByLocationId(req, res) {
+    try {
+      const { id } = req.params;
+      const event = await Event.findAll({ where: { location_id: id } });
+
+      if (!event) {
+        return res
+          .status(404)
+          .send({ message: "No se han encontrado los eventos" });
+      } else {
+        return res.status(200).send({
+          message: "Eventos obtenidos con éxito",
+          event,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Hubo un problema con el servidor", error });
+    }
+  },
+
   async getEventByType(req, res) {
     try {
       const { type } = req.params;
@@ -201,15 +224,13 @@ const EventController = {
     try {
       const { id } = req.params;
 
-      const deletedEvent = await Event.findByPk(id);
+      await Event.destroy({ where: { id: id } });
 
-      if (!deletedEvent) {
+      if (!id) {
         return res
           .status(404)
           .send({ message: "No se encontró ningún evento para eliminar" });
       }
-
-      await deletedEvent.destroy();
 
       res.status(200).send({ message: "Evento eliminado exitosamente" });
     } catch (error) {
