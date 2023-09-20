@@ -10,4 +10,8 @@ router.get("/getbyaddress/:address", FacilityController.getFacilitiesByAddress);
 
 router.post("/create", authentication, FacilityController.createFacility);
 
+router.put("/update", authentication, FacilityController.updateFacility);
+
+router.delete("/delete/:id", authentication, FacilityController.deleteFacility);
+
 module.exports = router;

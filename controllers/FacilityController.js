@@ -103,6 +103,52 @@ const FacilityController = {
       });
     }
   },
+
+  async updateFacility(req, res) {
+    try {
+      const { id } = req.params;
+      const updatedFacility = await Facilities.findByPk(id);
+
+      if (!updatedFacility) {
+        return res.status(404).send({
+          message: "No se encontró ninguna instalación para actualizar",
+        });
+      }
+
+      await updatedFacility.update(req.body);
+
+      res.status(200).send({
+        message: "Instalación actualizada exitosamente",
+        updatedFacility,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Hubo un problema con el servidor" });
+    }
+  },
+
+  async deleteFacility(req, res) {
+    try {
+      const { id } = req.params;
+
+      const deletedFacility = await Facilities.findByPk(id);
+
+      if (!deletedFacility) {
+        return res
+          .status(404)
+          .send({
+            message: "No se encontró ninguna instalación para eliminar",
+          });
+      }
+
+      await deletedFacility.destroy();
+
+      res.status(200).send({ message: "Instalación eliminada exitosamente" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Hubo un problema con el servidor" });
+    }
+  },
 };
 
 module.exports = FacilityController;
