@@ -25,6 +25,7 @@ app.use("/servicecompanies", require("./routes/serviceCompanies"));
 app.use("/location", require("./routes/location"));
 app.use("/roles", require("./routes/roles"));
 
+
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
 app.listen(PORT, () => console.log(`Server created successfully ${PORT}`));
