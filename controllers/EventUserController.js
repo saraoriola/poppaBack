@@ -115,7 +115,7 @@ const EventUserController = {
       console.error(error);
       res
         .status(500)
-        .send({ message: "Ha habido un problema al actualizar el evento" });
+        .send({ message: "Hubo un problema con el servidor" });
     }
   },
 };
