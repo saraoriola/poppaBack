@@ -143,17 +143,14 @@ const UserController = {
       if (!user.confirmed) {
         return res.status(400).send({ message: "Debes confirmar tu correo" });
       }
-
       const isMatch = bcrypt.compareSync(req.body.password, user.password);
       if (!isMatch) {
         return res
           .status(400)
           .send({ msg: "Nombre de usuario o contraseña incorrecta" });
       }
-
       const token = jwt.sign({ id: user.id }, jwt_secret);
       const createdToken = await Token.create({ token, User_id: user.id });
-
       res.send({ msg: "Logeado con éxito", token, user, createdToken });
     } catch (error) {
       console.error(error);
