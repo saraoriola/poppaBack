@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            address: DataTypes.STRING, //NOTE: Esto debe ser obligatorio? Resp.: Si, lo piden los de ux
+            address: DataTypes.STRING,
         },
         {
             sequelize,
