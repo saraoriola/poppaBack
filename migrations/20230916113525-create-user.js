@@ -61,6 +61,9 @@ module.exports = {
             catchment: {
                 type: Sequelize.STRING,
             },
+            career: {
+                type: Sequelize.STRING,
+            },
 
             createdAt: {
                 allowNull: false,
