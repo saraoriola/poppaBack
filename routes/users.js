@@ -22,7 +22,7 @@ router.post(
 );
 router.post("/login", UserController.login);
 
-router.put("/update/:id", UserController.update);
+router.put("/update", authentication, UserController.update);
 router.put("/resetPassword/:recoverToken", UserController.resetPassword);
 
 router.delete("/logout", authentication, UserController.logout);

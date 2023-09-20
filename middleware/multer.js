@@ -14,8 +14,10 @@ const generateUploadImageMulter = (path) =>
     },
     limits: { fileSize: 2 * 1024 * 1024 },
   });
-  
-const uploadUserImages = generateUploadImageMulter( "./assets/images");
+
+const uploadUserImages = generateUploadImageMulter(
+  "./assets/images/userImages"
+);
 const uploadCommentImages = generateUploadImageMulter("./assets/images");
 const uploadPostImages = generateUploadImageMulter("./assets/images");
 

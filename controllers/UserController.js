@@ -56,8 +56,8 @@ const UserController = {
       const getUser = await User.findOne({
         where: {
           id: req.user.id,
-        }
-      })
+        },
+      });
       if (!getUser) {
         return res.status(404).send({ message: "Usuario no conectado" });
       }
@@ -160,21 +160,29 @@ const UserController = {
 
   async update(req, res) {
     try {
-      const UserId = req.params.id;
       const updatedData = req.body;
       if (req.body.password) {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         updatedData.password = hashedPassword;
       }
-      await User.update(updatedData, {
-        where: { id: UserId },
+
+      const updateUser = await User.update(updatedData, {
+        where: {
+          id: req.user.id,
+        },
       });
 
-      res.send("User actualizado con éxito !");
+      if (!updateUser) {
+        return res.status(404).send({ message: "Usuario no conectado" });
+      } else {
+        res
+          .status(200)
+          .send({ message: "Usuario actualizado con éxito", updatedData });
+      }
     } catch (error) {
       res
         .status(500)
-        .send({ message: "Erro al se actualizar el usuario", error });
+        .send({ message: "Error al se actualizar el usuario", error });
     }
   },
 
