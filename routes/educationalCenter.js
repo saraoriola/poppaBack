@@ -3,6 +3,13 @@ const EducationalCenterController = require("../controllers/EducationalCenterCon
 const { isAdmin, authentication } = require("../middleware/authentication");
 const router = express.Router();
 
+router.get("/getbyid/:id", authentication, EducationalCenterController.getById);
+router.get(
+  "/getall",
+  authentication,
+  EducationalCenterController.getAllEducationalCenter
+);
+
 router.post(
   "/create",
   isAdmin,
@@ -10,15 +17,18 @@ router.post(
   EducationalCenterController.create
 );
 
-router.get("/getbyid/:id", EducationalCenterController.getById)
-router.get("/getall", EducationalCenterController.getAllEducationalCenter)
+router.put(
+  "/update/:id",
+  isAdmin,
+  authentication,
+  EducationalCenterController.updateEducationalCenter
+);
 
-router.post("/create", EducationalCenterController.create);
-
-router.put("/update/:id", EducationalCenterController.updateEducationalCenter);
-
-router.delete("/delete/:id", EducationalCenterController.deleteEducationalCenter);
-
+router.delete(
+  "/delete/:id",
+  isAdmin,
+  authentication,
+  EducationalCenterController.deleteEducationalCenter
+);
 
 module.exports = router;
-
