@@ -3,21 +3,50 @@ const express = require("express");
 const router = express.Router();
 
 const EventController = require("../controllers/EventController");
-const { authentication } = require("../middleware/authentication");
+const { authentication, isAdmin } = require("../middleware/authentication");
 
-router.get("/getall", authentication, EventController.getAllEvents);
-router.get("/getbyid/:id", authentication, EventController.getEventById);
-router.get("/getbytype/:type", authentication, EventController.getEventByType);
-router.get("/getbytitle/:title", authentication, EventController.getEventByTitle);
-router.get("/getbydateasc", authentication, EventController.getByDateAsc);
-router.get("/getbydatedesc", authentication, EventController.getByDateDesc);
-router.get("/getbydurationasc", authentication, EventController.getByDurationAsc);
-router.get("/getbydurationdesc", authentication, EventController.getByDurationDesc);
+// NOTE: Los dejo libres para que cualquier usuario lo pueda ver
+router.get("/getall", EventController.getAllEvents);
+router.get("/getbyid/:id", EventController.getEventById);
+// NOTE: Este lo dejo para que esté logeado
+router.get(
+  "/geteventwithrelations/:id",
+  authentication,
+  EventController.getEventWithRelations
+);
+router.get(
+  "/geteventbylocationid/:id",
 
-router.post("/create", authentication, EventController.createEvent);
+  EventController.getEventByLocationId
+);
+router.get("/getbytype/:type", EventController.getEventByType);
+router.get(
+  "/getbytitle/:title",
 
-router.put("/update/:id", authentication, EventController.updateEvent);
+  EventController.getEventByTitle
+);
+router.get("/getbydateasc", EventController.getByDateAsc);
+router.get("/getbydatedesc", EventController.getByDateDesc);
+router.get(
+  "/getbydurationasc",
 
-router.delete("/delete/:id", authentication, EventController.deleteEvent);
+  EventController.getByDurationAsc
+);
+router.get(
+  "/getbydurationdesc",
+
+  EventController.getByDurationDesc
+);
+
+router.post("/create", isAdmin, authentication, EventController.createEvent);
+
+router.put("/update/:id", isAdmin, authentication, EventController.updateEvent);
+
+router.delete(
+  "/delete/:id",
+  isAdmin,
+  authentication,
+  EventController.deleteEvent
+);
 
 module.exports = router;

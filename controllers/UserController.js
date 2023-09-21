@@ -1,4 +1,10 @@
-const { User, Token, Sequelize, Role } = require("../models/index.js");
+const {
+  User,
+  Token,
+  Sequelize,
+  Role,
+  EventUser,
+} = require("../models/index.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { jwt_secret } = require("../config/config.json")["development"];
@@ -56,8 +62,8 @@ const UserController = {
       const getUser = await User.findOne({
         where: {
           id: req.user.id,
-        }
-      })
+        },
+      });
       if (!getUser) {
         return res.status(404).send({ message: "Usuario no conectado" });
       }
@@ -67,6 +73,8 @@ const UserController = {
       res.status(500).send({ message: "Intente novamente", error });
     }
   },
+
+  //NOTE: No se si he de crear un usuario para eventUser o se asigna manualmente
   async register(req, res, next) {
     try {
       const { password } = req.body;
@@ -160,21 +168,59 @@ const UserController = {
 
   async update(req, res) {
     try {
-      const UserId = req.params.id;
+      const { id } = req.params;
+      const updatedData = req.body;
+
+      if (req.body.password) {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        updatedData.password = hashedPassword;
+      }
+
+      const updateUser = await User.update(updatedData, {
+        where: {
+          id: id,
+        },
+      });
+
+      if (!updateUser) {
+        return res.status(404).send({ message: "Usuario no conectado" });
+      } else {
+        res
+          .status(200)
+          .send({ message: "Usuario actualizado con éxito", updatedData });
+      }
+    } catch (error) {
+      res
+        .status(500)
+        .send({ message: "Error al se actualizar el usuario", error });
+    }
+  },
+
+  async updateMySelf(req, res) {
+    try {
       const updatedData = req.body;
       if (req.body.password) {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         updatedData.password = hashedPassword;
       }
-      await User.update(updatedData, {
-        where: { id: UserId },
+
+      const updateUser = await User.update(updatedData, {
+        where: {
+          id: req.user.id,
+        },
       });
 
-      res.send("User actualizado con éxito !");
+      if (!updateUser) {
+        return res.status(404).send({ message: "Usuario no conectado" });
+      } else {
+        res
+          .status(200)
+          .send({ message: "Usuario actualizado con éxito", updatedData });
+      }
     } catch (error) {
       res
         .status(500)
-        .send({ message: "Erro al se actualizar el usuario", error });
+        .send({ message: "Error al se actualizar el usuario", error });
     }
   },
 
@@ -226,15 +272,74 @@ const UserController = {
 
   async delete(req, res) {
     try {
-      const user = await User.destroy({
+      const { id } = req.params;
+
+      await User.destroy({
         where: {
-          id: req.params.id,
+          id: id,
         },
       });
-      if (user) {
-        res.send({ message: "Usuario borrado con éxito!" });
-      } else {
+
+      await Token.destroy({
+        where: {
+          User_id: id,
+        },
+      });
+
+      await Role.destroy({
+        where: {
+          User_id: id,
+        },
+      });
+
+      await EventUser.destroy({
+        where: {
+          User_id: id,
+        },
+      });
+
+      if (!id) {
         res.status(404).send({ message: "Usuario no encontrado." });
+      } else {
+        res.send({ message: "Usuario borrado con éxito!" });
+      }
+    } catch (error) {
+      res.status(500).send({ message: "Error al eliminar el usuario", error });
+    }
+  },
+
+  async deleteMyAccount(req, res) {
+    try {
+      const user = req.body;
+
+      await User.destroy({
+        where: {
+          id: req.user.id,
+        },
+      });
+
+      await Token.destroy({
+        where: {
+          User_id: req.user.id,
+        },
+      });
+
+      await Role.destroy({
+        where: {
+          User_id: req.user.id,
+        },
+      });
+
+      await EventUser.destroy({
+        where: {
+          User_id: req.user.id,
+        },
+      });
+
+      if (!user) {
+        res.status(404).send({ message: "Usuario no encontrado." });
+      } else {
+        res.status(200).send({ message: "Usuario borrado con éxito!" });
       }
     } catch (error) {
       console.error(error);

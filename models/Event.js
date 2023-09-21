@@ -1,6 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 
+//NOTE: Hay que cambiar estas relaciones? En la nueva bd user no está relacionada con event.
 module.exports = (sequelize, DataTypes) => {
     class Event extends Model {
         static associate(models) {

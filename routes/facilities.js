@@ -1,17 +1,40 @@
 const express = require("express");
 const FacilityController = require("../controllers/FacilityController");
 const router = express.Router();
-const { authentication } = require("../middleware/authentication");
+const { authentication, isAdmin } = require("../middleware/authentication");
 
-router.get("/getall", FacilityController.getAllFacilities);
-router.get("/getbyid/:id", FacilityController.getFacilityById);
-router.get("/getbyname/:name", FacilityController.getFacilitiesByName);
-router.get("/getbyaddress/:address", FacilityController.getFacilitiesByAddress);
+router.get("/getall", authentication, FacilityController.getAllFacilities);
+router.get("/getbyid/:id", authentication, FacilityController.getFacilityById);
+router.get(
+  "/getbyname/:name",
+  authentication,
+  FacilityController.getFacilitiesByName
+);
+router.get(
+  "/getbyaddress/:address",
+  authentication,
+  FacilityController.getFacilitiesByAddress
+);
 
-router.post("/create", authentication, FacilityController.createFacility);
+router.post(
+  "/create",
+  isAdmin,
+  authentication,
+  FacilityController.createFacility
+);
 
-router.put("/update", authentication, FacilityController.updateFacility);
+router.put(
+  "/update",
+  isAdmin,
+  authentication,
+  FacilityController.updateFacility
+);
 
-router.delete("/delete/:id", authentication, FacilityController.deleteFacility);
+router.delete(
+  "/delete/:id",
+  isAdmin,
+  authentication,
+  FacilityController.deleteFacility
+);
 
 module.exports = router;
