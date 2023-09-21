@@ -3,38 +3,45 @@ const express = require("express");
 const router = express.Router();
 
 const ServiceCompanyController = require("../controllers/ServiceCompanyController");
-const { authentication } = require("../middleware/authentication");
+const { authentication, isAdmin } = require("../middleware/authentication");
 
+//NOTE: Esto lo pongo admin ya que a un user normal le da lo mismo
 router.get(
   "/getall",
+  isAdmin,
   authentication,
   ServiceCompanyController.getAllServiceCompanies
 );
 router.get(
   "/getbyid/:id",
+  isAdmin,
   authentication,
   ServiceCompanyController.getServiceCompanyById
 );
 router.get(
   "/getbyname/:name",
+  isAdmin,
   authentication,
   ServiceCompanyController.getAllServiceCompaniesByName
 );
 
 router.post(
   "/create",
+  isAdmin,
   authentication,
   ServiceCompanyController.createServiceCompany
 );
 
 router.put(
   "/update/:id",
+  isAdmin,
   authentication,
   ServiceCompanyController.updateServiceCompany
 );
 
 router.delete(
   "/delete/:id",
+  isAdmin,
   authentication,
   ServiceCompanyController.deleteServiceCompany
 );
