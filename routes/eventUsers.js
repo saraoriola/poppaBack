@@ -10,6 +10,7 @@ router.get(
   EventUserController.getAllEventUsersByEvent
 );
 
+//NOTE: No se si algo de sto debe ser admin
 router.post("/create", authentication, EventUserController.createEventUser);
 
 router.put("/update/:id", authentication, EventUserController.updateEventUser);
