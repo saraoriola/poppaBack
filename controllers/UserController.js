@@ -168,6 +168,36 @@ const UserController = {
 
   async update(req, res) {
     try {
+      const { id } = req.params;
+      const updatedData = req.body;
+
+      if (req.body.password) {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        updatedData.password = hashedPassword;
+      }
+
+      const updateUser = await User.update(updatedData, {
+        where: {
+          id: id,
+        },
+      });
+
+      if (!updateUser) {
+        return res.status(404).send({ message: "Usuario no conectado" });
+      } else {
+        res
+          .status(200)
+          .send({ message: "Usuario actualizado con éxito", updatedData });
+      }
+    } catch (error) {
+      res
+        .status(500)
+        .send({ message: "Error al se actualizar el usuario", error });
+    }
+  },
+
+  async updateMySelf(req, res) {
+    try {
       const updatedData = req.body;
       if (req.body.password) {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);

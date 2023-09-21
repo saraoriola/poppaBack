@@ -5,8 +5,8 @@ const { isAdmin, authentication } = require("../middleware/authentication");
 
 router.put(
   "/updatetoadmin/:id",
-  authentication,
   isAdmin,
+  authentication,
   RoleController.updateToAdmin
 );
 
