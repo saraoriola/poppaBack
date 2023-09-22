@@ -4,6 +4,7 @@ const {
   Sequelize,
   Role,
   EventUser,
+  Event,
 } = require("../models/index.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -57,6 +58,7 @@ const UserController = {
       });
     }
   },
+
   async getUserConnected(req, res) {
     try {
       const getUser = await User.findOne({
@@ -142,6 +144,10 @@ const UserController = {
         where: {
           email: req.body.email,
         },
+        include: [
+          { model: Role, as: "role" },
+          { model: Event, as: "events" },
+        ],
       });
       if (!user) {
         return res
