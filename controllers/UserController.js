@@ -4,6 +4,7 @@ const {
   Sequelize,
   Role,
   EventUser,
+  Event,
 } = require("../models/index.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -64,7 +65,6 @@ const UserController = {
         where: {
           id: req.user.id,
         },
-        include: [{model: Role, as: "role"}],
       });
       if (!getUser) {
         return res.status(404).send({ message: "Usuario no conectado" });
@@ -144,6 +144,10 @@ const UserController = {
         where: {
           email: req.body.email,
         },
+        include: [
+          { model: Role, as: "role" },
+          { model: Event, as: "events" },
+        ],
       });
       if (!user) {
         return res
