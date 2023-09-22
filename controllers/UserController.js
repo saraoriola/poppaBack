@@ -57,12 +57,14 @@ const UserController = {
       });
     }
   },
+
   async getUserConnected(req, res) {
     try {
       const getUser = await User.findOne({
         where: {
           id: req.user.id,
         },
+        include: [{model: Role, as: "role"}],
       });
       if (!getUser) {
         return res.status(404).send({ message: "Usuario no conectado" });
