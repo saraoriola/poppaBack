@@ -44,6 +44,7 @@ app.use("/eventuser", require("./routes/eventUsers"));
 app.use("/educationalcenter", require("./routes/educationalCenter"));
 app.use("/eventusers", require("./routes/eventUsers"));
 app.use("/types", require("./routes/types"));
+app.use("/dashboards", require("./routes/dashboards"));
 
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
