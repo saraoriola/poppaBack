@@ -58,6 +58,8 @@ module.exports = (sequelize, DataTypes) => {
             interest: DataTypes.STRING,
             catchment: DataTypes.STRING,
             career: DataTypes.STRING,
+            responsability: DataTypes.STRING,
+            area: DataTypes.STRING,
         },
         {
             sequelize,

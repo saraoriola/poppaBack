@@ -18,8 +18,8 @@ module.exports = {
             arriveTime: {
                 type: Sequelize.DATE,
             },
-            feedback_id: {
-                type: Sequelize.INTEGER,
+            qrtoken: {
+                type: Sequelize.STRING,
             },
             leaveTime: {
                 type: Sequelize.DATE,
