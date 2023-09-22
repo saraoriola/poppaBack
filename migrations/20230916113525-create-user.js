@@ -64,6 +64,12 @@ module.exports = {
             career: {
                 type: Sequelize.STRING,
             },
+            responsability: {
+                type: Sequelize.STRING,
+            },
+            area: {
+                type: Sequelize.STRING,
+            },
 
             createdAt: {
                 allowNull: false,
