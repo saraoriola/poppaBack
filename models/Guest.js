@@ -4,22 +4,23 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class Relation extends Model {
         static associate(models) {
-            Relation.belongsTo(models.EventUser, {
-                foreignKey: "eventUser_id",
-                as: "eventUser",
+            Relation.belongsTo(models.Event, {
+                foreignKey: "event_id",
+                as: "eventGuest",
             });
         }
     }
 
     Relation.init(
         {
-            eventUser_id: DataTypes.INTEGER,
+            event_id: DataTypes.INTEGER,
             name: DataTypes.STRING,
+            email: DataTypes.STRING,
         },
         {
             sequelize,
-            modelName: "Relation",
-            tableName: "Relations",
+            modelName: "Guest",
+            tableName: "Guests",
         }
     );
 

@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
             event_id: DataTypes.INTEGER,
             user_id: DataTypes.INTEGER,
             arriveTime: DataTypes.DATE,
-            feedback_id: DataTypes.INTEGER,
+            qrtoken: DataTypes.STRING,
             leaveTime: DataTypes.DATE,
         },
         {

@@ -37,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             sector: DataTypes.STRING,
         },
+
         {
             sequelize,
             modelName: "Organization",
