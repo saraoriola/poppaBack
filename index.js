@@ -26,6 +26,10 @@ const corsOptions = {
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
+app.get("/", (req, res) => {
+    res.send("Server UP");
+});
+
 app.use("/users", require("./routes/users"));
 app.use("/events", require("./routes/events"));
 app.use("/organizations", require("./routes/organizations"));
