@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3001;
 require("dotenv").config();
 
 //NOTE: middleware
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"];
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "https://eventum-front.vercel.app"];
 
 app.use(
     cors({
@@ -26,7 +26,6 @@ app.use(
         credentials: true,
     })
 );
-
 
 app.use(express.json());
 
@@ -44,7 +43,6 @@ app.use("/eventuser", require("./routes/eventUsers"));
 app.use("/educationalcenter", require("./routes/educationalCenter"));
 app.use("/eventusers", require("./routes/eventUsers"));
 app.use("/types", require("./routes/types"));
-
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
