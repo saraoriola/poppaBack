@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3001;
 
 require("dotenv").config();
 
-//NOTE: middleware
+// NOTE: middleware
 const whitelist = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "https://eventum-front.vercel.app"];
 const corsOptions = {
     origin: (origin, callback) => {
@@ -23,7 +23,7 @@ const corsOptions = {
     },
 };
 
-app.use(cors({ origin: "*" }));
+app.use(cors(corsOptions)); // Usar corsOptions para configurar CORS
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -49,4 +49,4 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
 app.listen(PORT, () => console.log(`Server created successfully ${PORT}`));
 
-module.exports = app; // NOTE: Corregida esta línea
+module.exports = app;
