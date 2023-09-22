@@ -1,9 +1,8 @@
 const express = require("express");
-
 const router = express.Router();
-
 const EventController = require("../controllers/EventController");
 const { authentication, isAdmin } = require("../middleware/authentication");
+const { uploadUserImages } = require("../middleware/multer");
 
 // NOTE: Los dejo libres para que cualquier usuario lo pueda ver
 router.get("/getall", EventController.getAllEvents);
@@ -38,7 +37,7 @@ router.get(
   EventController.getByDurationDesc
 );
 
-router.post("/create", isAdmin, authentication, EventController.createEvent);
+router.post("/create", isAdmin, authentication, uploadUserImages.single("banner"), EventController.createEvent);
 
 router.put("/update/:id", isAdmin, authentication, EventController.updateEvent);
 

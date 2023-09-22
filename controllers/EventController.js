@@ -213,17 +213,13 @@ const EventController = {
   async createEvent(req, res) {
     try {
       // NOTE: La location_id se la metes a pelo.
-      const event = await Event.create(req.body);
-
+      const event = await Event.create({...req.body, banner: req.file?.filename});
       res.status(201).send({ message: "Evento creado exitosamente", event });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Ha habido un problema al crear el evento" });
+      res.status(500).send({ message: "Ha habido un problema al crear el evento", error });
     }
   },
-
   async updateEvent(req, res) {
     try {
       const { id } = req.params;
