@@ -4,5 +4,6 @@ config.json
 .DS_Store
 seeders
 nodemailer.js
+¡
 
 /config/
