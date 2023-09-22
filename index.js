@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3001;
 require("dotenv").config();
 
 //NOTE: middleware
-const whitelist = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "https://eventum-front.vercel.app:443"];
+const whitelist = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "https://eventum-front.vercel.app"];
 const corsOptions = {
     origin: (origin, callback) => {
         if (whitelist.indexOf(origin) !== -1) {
