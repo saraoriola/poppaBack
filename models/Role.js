@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     Role.init(
+
       {
         User_id: DataTypes.INTEGER,
         type: DataTypes.STRING,
@@ -21,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         modelName: "Role",
         tableName: "Roles",
       }
+
     );
 
     return Role;

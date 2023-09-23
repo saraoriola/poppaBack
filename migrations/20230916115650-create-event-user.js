@@ -18,11 +18,11 @@ module.exports = {
             arriveTime: {
                 type: Sequelize.DATE,
             },
-            qrtoken: {
-                type: Sequelize.STRING,
-            },
             leaveTime: {
                 type: Sequelize.DATE,
+            },
+            qrtoken: {
+                type: Sequelize.STRING,
             },
             createdAt: {
                 allowNull: false,
