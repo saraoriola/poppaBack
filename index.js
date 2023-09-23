@@ -11,24 +11,24 @@ const PORT = process.env.PORT || 3001;
 
 require("dotenv").config();
 
-//NOTE: middleware
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"];
+// NOTE: middleware
+const whitelist = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "https://eventum-front.vercel.app"];
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error());
+        }
+    },
+};
 
-app.use(
-    cors({
-        origin: (origin, callback) => {
-            if (!origin || allowedOrigins.includes(origin)) {
-                callback(null, true);
-            } else {
-                callback(new Error("Origin not allowed by CORS"));
-            }
-        },
-        credentials: true,
-    })
-);
-
-
+app.use(cors(corsOptions)); // Usar corsOptions para configurar CORS
 app.use(express.json());
+
+app.get("/", (req, res) => {
+    res.send("Server UP");
+});
 
 app.use("/users", require("./routes/users"));
 app.use("/events", require("./routes/events"));
@@ -46,9 +46,8 @@ app.use("/eventusers", require("./routes/eventUsers"));
 app.use("/types", require("./routes/types"));
 app.use("/dashboards", require("./routes/dashboards"));
 
-
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
 app.listen(PORT, () => console.log(`Server created successfully ${PORT}`));
 
-module.exports = app; // NOTE: Corregida esta línea
+module.exports = app;

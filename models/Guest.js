@@ -2,16 +2,16 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-    class Relation extends Model {
+    class Guests extends Model {
         static associate(models) {
-            Relation.belongsTo(models.Event, {
+            Guests.belongsTo(models.Event, {
                 foreignKey: "event_id",
                 as: "eventGuest",
             });
         }
     }
 
-    Relation.init(
+    Guests.init(
         {
             event_id: DataTypes.INTEGER,
             name: DataTypes.STRING,
@@ -24,5 +24,5 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
 
-    return Relation;
+    return Guests;
 };
