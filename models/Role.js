@@ -12,15 +12,15 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     Role.init(
-      {
-        User_id: DataTypes.INTEGER,
-        type: DataTypes.STRING,
-      },
-      {
-        sequelize,
-        modelName: "Role",
-        tableName: "roles",
-      }
+        {
+            User_id: DataTypes.INTEGER,
+            type: DataTypes.STRING,
+        },
+        {
+            sequelize,
+            modelName: "Role",
+            tableName: "roles",
+        }
     );
 
     return Role;
