@@ -253,6 +253,36 @@ async countInterested(req, res) {
   }
 },
 
+async countUsersByCountryForEvent(req, res) {
+  const { id } = req.params;
+
+  if (typeof id === 'undefined' || isNaN(id)) {
+    return res.status(400).json({ message: 'ID de evento no válido' });
+  }
+
+  try {
+    const userCounts = await EventUser.findAll({
+      where: { event_id: id },
+      include: {
+        model: User,
+        as: 'User',
+        attributes: ['country'],
+      },
+      attributes: [],
+      group: ['User.country'],
+      raw: true,
+      attributes: [
+        [Sequelize.col('User.country'), 'country'],
+      ],
+    });
+
+    return res.status(200).json(userCounts);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Error del servidor' });
+  }
+}
+
 };
 
 module.exports = DashboardController;
