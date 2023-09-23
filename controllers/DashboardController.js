@@ -1,46 +1,45 @@
-const { Event, User } = require("../models/index.js");
+const { EventUser } = require("../models/index.js");
 
 const DashboardController = {
   async getEventById(req, res) {
-    try {
-      const { id } = req.params;
+    const { id } = req.params;
 
-      const event = await Event.findByPk(id);
+    try {
+      const event = await EventUser.findAll({
+        where: { event_id: id },
+      });
 
       if (!event) {
-        return res.status(404).send({ message: "Evento no encontrado en el dashboard" });
-      } else {
-        res.status(200).send({
-          message: "Detalles del evento obtenidos exitosamente en el dashboard",
-          event,
-        });
+        return res.status(404).json({ message: 'Evento no encontrado' });
       }
+
+      return res.status(200).json(event);
     } catch (error) {
       console.error(error);
-      res.status(500).send({
-        message: "Ha habido un problema al obtener los detalles del evento en el dashboard",
-      });
+      return res.status(500).json({ message: 'Error del servidor' });
     }
   },
 
   async getUserById(req, res) {
-    try {
-      const { id } = req.params;
+    const { id} = req.params;
 
-      const user = await User.findByPk(id);
+    if (typeof id === 'undefined' || isNaN(id)) {
+      return res.status(400).json({ message: 'ID de usuario no válido' });
+    }
+
+    try {
+      const user = await EventUser.findAll({
+        where: { user_id: id },
+      });
 
       if (!user) {
-        return res.status(404).send({ message: "Evento no encontrado en el dashboard" });
-      } else {
-        res.status(200).send({
-          message: "Detalles del evento obtenidos exitosamente en el dashboard",
-        });
+        return res.status(404).json({ message: 'Usuario no encontrado' });
       }
+
+      return res.status(200).json(user);
     } catch (error) {
       console.error(error);
-      res.status(500).send({
-        message: "Ha habido un problema al obtener los detalles del evento en el dashboard",
-      });
+      return res.status(500).json({ message: 'Error del servidor' });
     }
   },
 };
