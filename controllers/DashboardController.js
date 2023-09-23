@@ -1,4 +1,4 @@
-const { EventUser, Event, User } = require("../models/index.js");
+const { EventUser, Event, User, Location } = require("../models/index.js");
 const { Sequelize } = require('sequelize');
 
 
@@ -147,7 +147,45 @@ const DashboardController = {
         console.error(error);
         return res.status(500).json({ message: 'Error del servidor' });
     }
+}, 
+
+async getLocationDescription(req, res) {
+  const { id } = req.params;
+
+  if (typeof id === 'undefined' || isNaN(id)) {
+    return res.status(400).json({ message: 'ID de evento no válido' });
+  }
+
+  try {
+    const event = await EventUser.findOne({
+      where: { id },
+      include: [
+        {
+          model: Event,
+          as: 'Event',
+          include: [
+            {
+              model: Location,
+              as: 'location',
+              attributes: ['capacity', 'description'],
+            },
+          ],
+        },
+      ],
+    });
+
+    if (!event) {
+      return res.status(404).json({ message: 'Evento no encontrado' });
+    }
+
+    const location = event.Event.location;
+    return res.status(200).json(location);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Error del servidor' });
+  }
 }
+
 
 };
 

@@ -8,8 +8,6 @@ router.get("/user/:id", DashboardController.getUserById);
 router.get("/event/:id/arrival-departure", DashboardController.getArrivalAndDepartureTimeForEvent);
 router.get('/event/:id/attendees-count', DashboardController.countAttendeesForEvent);
 router.get("/event/:id/speacker", DashboardController.getSpeackerName);
-
-
-
+router.get("/event/:id/location", DashboardController.getLocationDescription);
 
 module.exports = router;
