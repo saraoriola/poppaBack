@@ -10,21 +10,18 @@ module.exports = (sequelize, DataTypes) => {
             });
         }
     }
-
-  }
-  Amenities.init(
+};
+Amenities.init(
     {
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
     },
     {
-      sequelize,
-      modelName: "Amenities",
-      tableName: "Amenities",
+        sequelize,
+        modelName: "Amenities",
+        tableName: "Amenities",
     }
-  );
-  return Amenities;
-
-};
+);
+return Amenities;
