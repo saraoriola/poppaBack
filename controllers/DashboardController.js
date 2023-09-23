@@ -234,6 +234,25 @@ async countConfirmedAttendeesForEvent(req, res) {
   }
 },
 
+async countInterested(req, res) {
+  const { id } = req.params;
+
+  try {
+    const uniqueUserCount = await EventUser.count({
+      distinct: true,
+      col: 'user_id',
+      where: {
+        event_id: id,
+      },
+    });
+
+    return res.status(200).json({ count: uniqueUserCount });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Server Error' });
+  }
+},
+
 };
 
 module.exports = DashboardController;
