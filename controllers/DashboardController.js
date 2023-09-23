@@ -1,49 +1,63 @@
-const { EventUser } = require("../models/index.js");
+const { EventUser, Event, User } = require("../models/index.js");
 const { Sequelize } = require('sequelize');
 
 
 const DashboardController = {
   async getEventById(req, res) {
     const { id } = req.params;
-
+  
     try {
-      const event = await EventUser.findAll({
+      const eventUser = await EventUser.findOne({
         where: { event_id: id },
+        include:  [
+          {
+            model: Event,
+            as: 'Event', 
+          },
+        ],
       });
-
-      if (!event) {
+  
+      if (!eventUser) {
         return res.status(404).json({ message: 'Evento no encontrado' });
       }
-
+  
+      const event = eventUser.Event; 
+  
       return res.status(200).json(event);
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: 'Error del servidor' });
     }
   },
-
+  
   async getUserById(req, res) {
-    const { id} = req.params;
+    const { id } = req.params;
 
     if (typeof id === 'undefined' || isNaN(id)) {
-      return res.status(400).json({ message: 'ID de usuario no válido' });
+        return res.status(400).json({ message: 'ID de usuario no válido' });
     }
 
     try {
-      const user = await EventUser.findAll({
-        where: { user_id: id },
-      });
+        const user = await EventUser.findOne({
+            where: { user_id: id },
+            include: [
+                {
+                    model: User,
+                    as: 'User',
+                },
+            ],
+        });
 
-      if (!user) {
-        return res.status(404).json({ message: 'Usuario no encontrado' });
-      }
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
 
-      return res.status(200).json(user);
+        return res.status(200).json(user);
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Error del servidor' });
+        console.error(error);
+        return res.status(500).json({ message: 'Error del servidor' });
     }
-  },
+},
 
   async getArrivalAndDepartureTimeForEvent(req, res) {
     const { id } = req.params;
@@ -102,7 +116,6 @@ const DashboardController = {
       return res.status(500).json({ message: 'Error del servidor' });
     }
   },
-  
 
 };
 

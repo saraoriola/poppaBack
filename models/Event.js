@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
             },
             banner: DataTypes.STRING,
+            speacker: DataTypes.STRING,
             description: {
                 type: DataTypes.STRING,
                 allowNull: false,

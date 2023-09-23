@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: "eventUser_id",
                 as: "feedback",
             });
+            EventUser.belongsTo(models.Event, { foreignKey: 'event_id', as: 'Event' });
+            EventUser.belongsTo(models.User, { foreignKey: 'user_id', as: 'User' });
         }
     }
 
@@ -28,3 +30,4 @@ module.exports = (sequelize, DataTypes) => {
 
     return EventUser;
 };
+
