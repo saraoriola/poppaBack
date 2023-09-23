@@ -203,8 +203,36 @@ async getLocationDescription(req, res) {
     console.error(error);
     return res.status(500).json({ message: 'Error del servidor' });
   }
-}
+},
 
+async countConfirmedAttendeesForEvent(req, res) {
+  const { id } = req.params;
+
+  if (typeof id === 'undefined' || isNaN(id)) {
+    return res.status(400).json({ message: 'ID de evento no válido' });
+  }
+
+  try {
+    const confirmedAttendees = await EventUser.count({
+      where: {
+        event_id: id,
+        '$User.confirmed$': true, 
+      },
+      include: [
+        {
+          model: User,
+          as: 'User',
+          attributes: [], 
+        },
+      ],
+    });
+
+    return res.status(200).json({ confirmedAttendees });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Error del servidor' });
+  }
+},
 
 };
 
