@@ -1,4 +1,6 @@
 const { EventUser } = require("../models/index.js");
+const { Sequelize } = require('sequelize');
+
 
 const DashboardController = {
   async getEventById(req, res) {
@@ -77,6 +79,29 @@ const DashboardController = {
     }
   },
   
+  async countAttendeesForEvent(req, res) {
+    const { id } = req.params;
+  
+    if (typeof id === 'undefined' || isNaN(id)) {
+      return res.status(400).json({ message: 'ID de evento no válido' });
+    }
+  
+    try {
+      const attendeeCount = await EventUser.count({
+        where: {
+          event_id: id,
+          arriveTime: {
+            [Sequelize.Op.not]: null, 
+          },
+        },
+      });
+  
+      return res.status(200).json({ attendees: attendeeCount });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Error del servidor' });
+    }
+  },
   
 
 };
