@@ -17,11 +17,12 @@ module.exports = (sequelize, DataTypes) => {
     }
     Organization.init(
         {
+            type_id: DataTypes.INTEGER,
             name: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            web: DataTypes.STRING, //NOTE: Esto debe ser obligatorio?
+            web: DataTypes.STRING,
             email: {
                 type: DataTypes.STRING,
                 allowNull: false,

@@ -12,9 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     }
     Feedback.init(
         {
+            eventUser_id: DataTypes.INTEGER,
             valoration: DataTypes.INTEGER,
             comments: DataTypes.STRING,
-            eventUser_id: DataTypes.INTEGER,
         },
         {
             sequelize,

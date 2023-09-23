@@ -5,15 +5,17 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {}
     }
     Location_amenities.init(
-      {
-        location_id: DataTypes.INTEGER,
-        amenities_id: DataTypes.INTEGER,
-      },
-      {
-        sequelize,
-        modelName: "Location_amenities",
-        tableName: "Location_amenities",
-      }
+
+        {
+            location_id: DataTypes.INTEGER,
+            amenities_id: DataTypes.INTEGER,
+        },
+        {
+            sequelize,
+            modelName: "Location_amenities",
+            tableName: "location_amenities",
+        }
+
     );
     return Location_amenities;
 };
