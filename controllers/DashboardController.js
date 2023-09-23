@@ -117,6 +117,38 @@ const DashboardController = {
     }
   },
 
+  async getSpeackerName(req, res) {
+    const { id } = req.params;
+
+    if (typeof id === 'undefined' || isNaN(id)) {
+        return res.status(400).json({ message: 'ID de evento no válido' });
+    }
+
+    try {
+        const event = await EventUser.findOne({
+            where: { event_id: id },
+            include: [
+                {
+                    model: Event,
+                    as: 'Event',
+                    attributes: ['speacker'], 
+                },
+            ],
+        });
+
+        if (!event) {
+            return res.status(404).json({ message: 'Evento no encontrado' });
+        }
+
+        const speackerName = event.Event.speacker;
+
+        return res.status(200).json({ speacker: speackerName });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Error del servidor' });
+    }
+}
+
 };
 
 module.exports = DashboardController;

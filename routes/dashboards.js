@@ -7,6 +7,9 @@ router.get("/event/:id", DashboardController.getEventById);
 router.get("/user/:id", DashboardController.getUserById);
 router.get("/event/:id/arrival-departure", DashboardController.getArrivalAndDepartureTimeForEvent);
 router.get('/event/:id/attendees-count', DashboardController.countAttendeesForEvent);
+router.get("/event/:id/speacker", DashboardController.getSpeackerName);
+
+
 
 
 module.exports = router;
