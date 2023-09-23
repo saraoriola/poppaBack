@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: "Organization",
-            tableName: "organizations", // NOTE: HE VISTO QUE SI LA TABLA SE LLAMA CON NOMBRE DIFERENTE (MAYUS-MINUS) HAY QUE ESPECIFICAR CON TABLENAME
+            tableName: "Organizations", 
         }
     );
     return Organization;

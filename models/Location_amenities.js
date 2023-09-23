@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       {
         sequelize,
         modelName: "Location_amenities",
-        tableName: "location_amenities",
+        tableName: "Location_amenities",
       }
     );
     return Location_amenities;

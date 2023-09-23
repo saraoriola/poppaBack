@@ -2,28 +2,47 @@ const { EventUser, Event, User, Location } = require("../models/index.js");
 const { Sequelize } = require('sequelize');
 
 
+function formatDateTime(dateTime) {
+  const date = new Date(dateTime);
+  const day = date.getDate().toString().padStart(2, '0'); 
+  const month = getMonthInLetters(date.getMonth() + 1); 
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
+function getMonthInLetters(monthNumber) {
+  const months = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ];
+  return months[monthNumber - 1];
+}
+
 const DashboardController = {
   async getEventById(req, res) {
     const { id } = req.params;
-  
+
     try {
       const eventUser = await EventUser.findOne({
         where: { event_id: id },
-        include:  [
+        include: [
           {
             model: Event,
-            as: 'Event', 
+            as: 'Event',
           },
         ],
       });
-  
+
       if (!eventUser) {
         return res.status(404).json({ message: 'Evento no encontrado' });
       }
-  
-      const event = eventUser.Event; 
-  
-      return res.status(200).json(event);
+
+      const event = eventUser.Event;
+      const formattedDateTime = formatDateTime(event.dateTime);
+      
+      const [day, month] = formattedDateTime.split('-');
+
+      return res.status(200).json({ ...event.toJSON(), day, month });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: 'Error del servidor' });
@@ -167,7 +186,7 @@ async getLocationDescription(req, res) {
             {
               model: Location,
               as: 'location',
-              attributes: ['capacity', 'description'],
+              attributes: ['capacity'],
             },
           ],
         },
