@@ -15,14 +15,14 @@ module.exports = {
             event_id: {
                 type: Sequelize.INTEGER,
             },
+            service_company_id: {
+                type: Sequelize.INTEGER,
+            },
             cost: {
                 type: Sequelize.DECIMAL,
             },
             paid: {
                 type: Sequelize.DECIMAL,
-            },
-            service_company_id: {
-                type: Sequelize.INTEGER,
             },
             createdAt: {
                 allowNull: false,
