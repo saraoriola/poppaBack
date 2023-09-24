@@ -11,7 +11,6 @@ const docs = require("./docs/index");
 
 const PORT = process.env.PORT || 3001;
 
-// NOTE: middleware
 const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "https://eventum-front.vercel.app"];
 const corsOptions = {
     origin: (origin, callback) => {
