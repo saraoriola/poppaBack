@@ -26,5 +26,5 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
 
-    return Amenities; 
+    return Amenities;
 };
