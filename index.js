@@ -120,5 +120,5 @@ ws.on("connection", function (connection) {
 
 server.listen(PORT, () => console.log(`Server created successfully ${PORT}`));
 
-module.exports.broadcastMessage = broadcastMessage;
 module.exports.app = app;
+module.exports.broadcastMessage = broadcastMessage;
