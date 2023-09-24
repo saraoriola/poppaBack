@@ -1,3 +1,5 @@
+const mysql2 = require("mysql2");
+
 const config = {
     development: {
         username: process.env.DB_USERNAME,
