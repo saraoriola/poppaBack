@@ -24,7 +24,7 @@ const corsOptions = {
     },
 };
 
-app.use(cors(corsOptions)); // Usar corsOptions para configurar CORS
+app.use(cors()); // Usar corsOptions para configurar CORS
 app.use(express.json());
 
 app.get("/", (req, res) => {
