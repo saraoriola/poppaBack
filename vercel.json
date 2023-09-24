@@ -2,22 +2,9 @@
     "version": 2,
     "builds": [
         {
-            "src": "index.js",
+            "src": "api/index.js",
             "use": "@vercel/node"
         }
     ],
-    "headers": [
-        {
-            "source": "/(.*)",
-            "headers": [
-                { "key": "Access-Control-Allow-Credentials", "value": "true" },
-                {
-                    "key": "Access-Control-Allow-Origin",
-                    "value": "https://eventum-front.vercel.app/,https://vercel.live/link/eventum-front-git-develop-patrigarcia.vercel.app?via=deployment-domains-list-branch,https://eventum-front-git-develop-patrigarcia.vercel.app/,https://vercel.live/link/eventum-front-a1dhu6lii-patrigarcia.vercel.app?via=deployment-domains-list-commit,https://eventum-front-a1dhu6lii-patrigarcia.vercel.app/"
-                },
-                { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
-                { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" }
-            ]
-        }
-    ]
+    "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
 }
