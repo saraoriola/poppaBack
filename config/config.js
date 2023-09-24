@@ -15,6 +15,7 @@ const config = {
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
         dialect: process.env.DB_DIALECT,
+        dialectModule: mysql2,
         jwt_secret: process.env.JWT_SECRET,
     },
     production: {
