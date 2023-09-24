@@ -1,4 +1,5 @@
 require("dotenv").config();
+const process = require("process");
 const nodemailer = require("nodemailer");
 
 let transporter = nodemailer.createTransport({

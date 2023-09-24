@@ -1,13 +1,18 @@
+/* eslint-disable no-console */
 require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-
-const app = express();
-const jwt = require("jsonwebtoken");
-
 const swaggerUI = require("swagger-ui-express");
 const docs = require("./docs/index");
+const process = require("process");
+const http = require("http");
+const uuidv4 = require("uuid").v4;
+const { WebSocket } = require("ws");
+
+const app = express();
+const server = http.createServer(app);
+const ws = new WebSocket.Server({ server: server });
 
 const PORT = process.env.PORT || 3001;
 
@@ -21,6 +26,7 @@ const allowedOrigins = [
     "https://vercel.live/link/eventum-front-a1dhu6lii-patrigarcia.vercel.app?via=deployment-domains-list-commit",
     "https://eventum-front-a1dhu6lii-patrigarcia.vercel.app/",
 ];
+
 const corsOptions = {
     origin: (origin, callback) => {
         if (!origin) return callback(null, true);
@@ -33,7 +39,7 @@ const corsOptions = {
     credentials: true,
 };
 
-app.use(cors(corsOptions)); // Usar corsOptions para configurar CORS
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -61,6 +67,57 @@ app.use("/types", require("./routes/types"));
 app.use("/dashboards", require("./routes/dashboards"));
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
-app.listen(PORT, () => console.log(`Server created successfully ${PORT}`));
+const typesDef = {
+    USER_EVENT: "userevent",
+    CHECK_IN: "CHECK-IN",
+    CHECK_OUT: "CHECK-OUT",
+};
 
-module.exports = app;
+const clients = {};
+const users = {};
+const userActivity = [];
+
+function broadcastMessage(json) {
+    const data = JSON.stringify(json);
+    for (let userId in clients) {
+        let client = clients[userId];
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(data);
+        }
+    }
+}
+
+function handleMessage(message, userId) {
+    console.log(`Message received from user(${userId}): ${message}`);
+    const dataFromClient = JSON.parse(message.toString());
+    const json = { type: dataFromClient.type, payload: dataFromClient.payload };
+    if (dataFromClient.type === typesDef.USER_EVENT) {
+        users[userId] = dataFromClient;
+        userActivity.push(`${dataFromClient.username} joined`);
+        json.data = { users, userActivity };
+    }
+    broadcastMessage(json);
+}
+
+function handleDisconnect(userId) {
+    const json = { type: typesDef.USER_EVENT };
+    const username = users[userId]?.username || userId;
+    userActivity.push(`${username} left`);
+    json.data = { users, userActivity };
+    delete clients[userId];
+    delete users[userId];
+    broadcastMessage(json);
+    console.log(`${userId} disconnected.`);
+}
+
+ws.on("connection", function (connection) {
+    const userId = uuidv4();
+    clients[userId] = connection;
+    console.log(`${userId} connected.`);
+    connection.on("message", (message) => handleMessage(message, userId));
+    connection.on("close", () => handleDisconnect(userId));
+});
+
+server.listen(PORT, () => console.log(`Server created successfully ${PORT}`));
+
+module.exports.broadcastMessage = broadcastMessage;
