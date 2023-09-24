@@ -11,7 +11,16 @@ const docs = require("./docs/index");
 
 const PORT = process.env.PORT || 3001;
 
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "https://eventum-front.vercel.app:443"];
+const allowedOrigins = [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5175",
+    "https://eventum-front.vercel.app",
+    "https://vercel.live/link/eventum-front-git-develop-patrigarcia.vercel.app?via=deployment-domains-list-branch",
+    "https://eventum-front-git-develop-patrigarcia.vercel.app/",
+    "https://vercel.live/link/eventum-front-a1dhu6lii-patrigarcia.vercel.app?via=deployment-domains-list-commit",
+    "https://eventum-front-a1dhu6lii-patrigarcia.vercel.app/",
+];
 const corsOptions = {
     origin: (origin, callback) => {
         if (!origin) return callback(null, true);
@@ -21,10 +30,10 @@ const corsOptions = {
         }
         return callback(null, true);
     },
-    credentials: false,
+    credentials: true,
 };
 
-//app.use(cors(corsOptions)); // Usar corsOptions para configurar CORS
+app.use(cors(corsOptions)); // Usar corsOptions para configurar CORS
 app.use(express.json());
 
 app.get("/", (req, res) => {
