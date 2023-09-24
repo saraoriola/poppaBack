@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const index = require("../index");
+const qrCode = require("../utils/qrCode");
 const { EventUser } = require("../models/index.js");
 
 const EventUserController = {
@@ -45,6 +46,10 @@ const EventUserController = {
     //NOTE: Falta traerme el event_id. Se seleccionará manualmente supongo. De momento lo dejo para pasarlo por body a pelo.
     async createEventUser(req, res) {
         try {
+            // Aquí hay que generar el código QR y almacenarlo en la columna "qrtoken".
+            // Usar la siguiente línea de código:
+            console.log(qrCode.generateRandomQrCode());
+
             const user = req.body;
             const eventUserBody = {
                 ...user,
