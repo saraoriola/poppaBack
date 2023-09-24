@@ -27,7 +27,9 @@
         "sequelize-cli": "^6.6.1",
         "swagger-jsdoc": "^6.2.8",
         "swagger-ui-express": "^5.0.0",
-        "tedious": "^16.4.0"
+        "tedious": "^16.4.0",
+        "uuidv4": "^6.2.13",
+        "ws": "^8.14.2"
     },
     "devDependencies": {
         "eslint": "^8.49.0",
