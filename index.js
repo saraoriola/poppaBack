@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 
@@ -8,8 +10,6 @@ const swaggerUI = require("swagger-ui-express");
 const docs = require("./docs/index");
 
 const PORT = process.env.PORT || 3001;
-
-require("dotenv").config();
 
 // NOTE: middleware
 const whitelist = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "https://eventum-front.vercel.app"];
