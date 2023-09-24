@@ -1,3 +1,4 @@
+const process = require("process");
 const mysql2 = require("mysql2");
 
 const config = {
