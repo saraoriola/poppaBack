@@ -24,7 +24,7 @@ const corsOptions = {
     credentials: true,
 };
 
-app.use(cors(corsOptions)); // Usar corsOptions para configurar CORS
+app.use(cors({ origin: "*" })); // Usar corsOptions para configurar CORS
 app.use(express.json());
 
 app.get("/", (req, res) => {
