@@ -11,7 +11,7 @@ const docs = require("./docs/index");
 
 const PORT = process.env.PORT || 3001;
 
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "https://eventum-front.vercel.app"];
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "https://eventum-front.vercel.app:443"];
 const corsOptions = {
     origin: (origin, callback) => {
         if (!origin) return callback(null, true);
