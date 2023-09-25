@@ -154,7 +154,7 @@ const EventUserController = {
 
     async getQrCodeByEventUser(req, res) {
         try {
-            const eventUsers = await EventUser.findAll({ where: { event_id: req.body.event_id, user_id: req.user.id } });
+            const eventUsers = await EventUser.findAll({ where: { event_id: req.params.event_id, user_id: req.user.id } });
             res.send({ message: "QR code", code: eventUsers[0].qrtoken });
         } catch (error) {
             res.status(500).send(error);
