@@ -42,22 +42,15 @@ const EventUserController = {
         }
     },
 
-    //NOTE: Esto será automático con el QR supongo. De momento lo dejo así.
-    //NOTE: Falta traerme el event_id. Se seleccionará manualmente supongo. De momento lo dejo para pasarlo por body a pelo.
     async createEventUser(req, res) {
         try {
-            // Aquí hay que generar el código QR y almacenarlo en la columna "qrtoken".
-            // Usar la siguiente línea de código:
-            console.log(qrCode.generateRandomQrCode());
-
-            const user = req.body;
             const eventUserBody = {
-                ...user,
+                event_id: req.body.event_id,
                 user_id: req.user.id,
+                qrtoken: qrCode.generateRandomQrCode(),
             };
 
             const eventUser = await EventUser.create(eventUserBody);
-
             res.status(201).send({ message: "Usuario añadido al evento exitosamente", eventUser });
         } catch (error) {
             console.error(error);
