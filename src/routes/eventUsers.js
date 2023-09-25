@@ -5,6 +5,7 @@ const { authentication } = require("../middleware/authentication");
 
 router.get("/getall", authentication, EventUserController.getAllEventUsers);
 router.get("/getbyeventid/:id", authentication, EventUserController.getAllEventUsersByEvent);
+router.get("/qr", authentication, EventUserController.getQrCodeByEventUser);
 
 // No se si algo de sto debe ser admin
 router.post("/userCheckIn", EventUserController.userCheckIn); // Agregar middleware de auth y admin
