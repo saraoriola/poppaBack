@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const index = require("../index");
 const qrCode = require("../utils/qrCode");
-const { EventUser } = require("../models/index.js");
+const { EventUser, User } = require("../models/index.js");
 
 const EventUserController = {
     async getAllEventUsers(req, res) {
@@ -105,7 +105,19 @@ const EventUserController = {
     async userCheckIn(req, res) {
         try {
             const qrtoken = req.body.qrtoken;
-            const eventUser = await EventUser.update(
+            let eventUser = await EventUser.findOne({ where: { qrtoken } });
+
+            ////////////////////////////////////////////////
+            //           Activar esto el dia de la demo
+            ////////////////////////////////////////////////
+
+            // if (eventUser.arriveTime) {
+            //     let msg = { type: "CHECK-IN-ALREADY-REGISTERED", payload: `QR token ${qrtoken} ya validado` };
+            //     index.broadcastMessage(msg);
+            //     return res.status(200).send(msg);
+            // }
+
+            eventUser = await EventUser.update(
                 { arriveTime: new Date() },
                 {
                     where: { qrtoken },
@@ -113,17 +125,21 @@ const EventUserController = {
             );
 
             if (eventUser[0] === 1) {
+                const eventUserData = await EventUser.findOne({
+                    where: { qrtoken },
+                    include: [{ model: User, as: "User" }],
+                });
+                index.broadcastMessage({ type: "CHECK-IN", payload: eventUserData });
                 const msg = `Check-in satisfactorio para el QR token ${qrtoken}`;
-                index.broadcastMessage({ type: "CHECK-IN", payload: msg });
-                res.send({ message: msg });
+                return res.send({ message: msg });
             } else if (eventUser[0] === 0) {
-                res.status(400).send({ message: `No existe el QR token ${qrtoken}` });
+                return res.status(400).send({ message: `No existe el QR token ${qrtoken}` });
             } else {
-                res.status(400).send({ message: `No se pudo hacer check-in con el token ${qrtoken}` });
+                return res.status(400).send({ message: `No se pudo hacer check-in con el token ${qrtoken}` });
             }
         } catch (err) {
             console.error(err);
-            res.status(500).send({ message: "Ha habido un error en el servidor" });
+            return res.status(500).send({ message: "Ha habido un error en el servidor" });
         }
     },
 
