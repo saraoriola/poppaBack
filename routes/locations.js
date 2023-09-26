@@ -15,9 +15,7 @@ router.get(
   authentication,
   LocationController.getLocationsAsc
 );
-router.get("/getbyid/:id", 
-authentication, 
-LocationController.getById);
+router.get("/getbyid/:id", authentication, LocationController.getById);
 
 router.get(
   "/getbycapacity/:capacity",
