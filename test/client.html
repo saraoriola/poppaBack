@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Socket Tester</title>
+    </head>
+    <body>
+        <label for="message">Insert a message for broadcasting:</label>
+        <input type="text" id="message" name="message" required size="50" />
+        <br />
+        <br />
+        <button onclick="sendMessage()">Send message to the server</button>
+    </body>
+    <script>
+        // const socket = new WebSocket("ws://localhost:8080");
+        const socket = new WebSocket("wss://eventum-back.patgonzalez.me");
+
+        socket.addEventListener("open", function (event) {
+            console.log("Connected to WS Server");
+        });
+
+        socket.addEventListener("message", function (event) {
+            console.log("Message received from server:", event.data);
+        });
+
+        const sendMessage = () => {
+            const value = document.getElementById("message").value;
+            const message = {
+                type: "message",
+                payload: value,
+            };
+            socket.send(JSON.stringify(message));
+        };
+    </script>
+</html>
