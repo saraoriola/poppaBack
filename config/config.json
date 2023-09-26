@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "root",
+    "password": "1234",
+    "database": "marina_development",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "jwt_secret": "1234"
+  },
+  "test": {
+    "username": "root",
+    "password": "1234",
+    "database": "marina_development_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "jwt_secret": "1234"
+  },
+  "production": {
+    "username": "root",
+    "password": "colombia1010",
+    "database": "marina_development",
+    "host": "7.tcp.eu.ngrok.io",
+    "port": "10929",
+    "dialect": "mysql"
+  }
+}
