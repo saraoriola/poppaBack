@@ -2,7 +2,7 @@ const Multer = require("multer");
 const path = require("path");
 
 const allowedMimeTypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
-const maxFileSize = 2 * 1024 * 1024; // 2 MB (ajusta este valor según tus necesidades)
+const maxFileSize = 2 * 1024 * 1024;
 
 const generateUploadImageMulter = (uploadPath) => {
   const storage = Multer.diskStorage({
