@@ -2,7 +2,7 @@ const Multer = require("multer");
 const path = require("path");
 
 const allowedMimeTypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
-const maxFileSize = 8 * 1024 * 1024; // 8 MB
+const maxFileSize = 2 * 1024 * 1024; // 2 MB (ajusta este valor según tus necesidades)
 
 const generateUploadImageMulter = (uploadPath) => {
   const storage = Multer.diskStorage({
@@ -32,26 +32,8 @@ const generateUploadImageMulter = (uploadPath) => {
 };
 
 const sanitizeFileName = (fileName) => {
-  // Implementa lógica de limpieza de nombres de archivo aquí
-  // Por ejemplo, puedes eliminar caracteres especiales o reemplazarlos
   return fileName.replace(/[^\w.-]/g, "_");
 };
-
-const diskStorage = Multer.diskStorage({
-  destination: (req, file, cb) => {
-    const destinationPath = path.join(__dirname, "..", "uploads"); // Ruta segura
-    cb(null, destinationPath);
-  },
-  filename: (req, file, cb) => {
-    const sanitizedFileName = sanitizeFileName(file.originalname);
-    cb(null, Date.now() + "-" + sanitizedFileName);
-  },
-});
-
-const diskUpload = Multer({
-  storage: diskStorage,
-  limits: { fileSize: 8000000 }, // 8 MB
-});
 
 const uploadUserImages = generateUploadImageMulter("assets/images/userImages");
 const uploadFeedbackImages = generateUploadImageMulter(
@@ -61,9 +43,4 @@ const uploadEventImages = generateUploadImageMulter(
   "assets/images/eventImages"
 );
 
-module.exports = {
-  uploadEventImages,
-  uploadUserImages,
-  uploadFeedbackImages,
-  diskUpload,
-};
+module.exports = { uploadEventImages, uploadUserImages, uploadFeedbackImages };
