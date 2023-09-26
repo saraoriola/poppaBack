@@ -1,25 +1,50 @@
 const Multer = require("multer");
-const mimetypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
-const generateUploadImageMulter = (path) =>
-  Multer({
-    storage: Multer.diskStorage({
-      destination: (req, file, cb) => cb(null, path),
-      filename: (req, file, cb) =>
-        cb(null, Date.now() + "-" + file.originalname),
-    }),
-    fileFilter: (req, file, cb) => {
-      if (mimetypes.includes(file.mimetype)) cb(null, true);
-      else cb(null, false);
+const path = require("path");
+
+const allowedMimeTypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
+const maxFileSize = 2 * 1024 * 1024; // 2 MB
+
+const generateUploadImageMulter = (uploadPath) => {
+  const storage = Multer.diskStorage({
+    destination: (req, file, cb) => {
+      const destinationPath = path.join(__dirname, "..", uploadPath); // Ruta segura
+      cb(null, destinationPath);
     },
-    limits: { fileSize: 2 * 1024 * 1024 },
+    filename: (req, file, cb) => {
+      const sanitizedFileName = sanitizeFileName(file.originalname);
+      cb(null, Date.now() + "-" + sanitizedFileName);
+    },
   });
+
+  const fileFilter = (req, file, cb) => {
+    if (allowedMimeTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error("Tipo de archivo no permitido"), false);
+    }
+  };
+
+  return Multer({
+    storage,
+    fileFilter,
+    limits: { fileSize: maxFileSize },
+  });
+};
+
+const sanitizeFileName = (fileName) => {
+  // Implementa lógica de limpieza de nombres de archivo aquí
+  // Por ejemplo, puedes eliminar caracteres especiales o reemplazarlos
+  return fileName.replace(/[^\w.-]/g, "_");
+};
+
 const uploadUserImages = generateUploadImageMulter(
-  "src/assets/images/userImages"
+  "assets/images/userImages"
 );
 const uploadFeedbackImages = generateUploadImageMulter(
-  "src/assets/images/feedbackImages"
+  "assets/images/feedbackImages"
 );
 const uploadEventImages = generateUploadImageMulter(
-  "src/assets/images/eventImages"
+  "assets/images/eventImages"
 );
+
 module.exports = { uploadEventImages, uploadUserImages, uploadFeedbackImages };
