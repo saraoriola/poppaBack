@@ -20,7 +20,7 @@ const allowedOrigins = [
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:5175",
-    "https://eventum.patgonzalez.me",
+    "https://eventum.dreamteam7.com",
     "https://eventum-front.vercel.app",
     "https://vercel.live/link/eventum-front-git-develop-patrigarcia.vercel.app?via=deployment-domains-list-branch",
     "https://eventum-front-git-develop-patrigarcia.vercel.app/",
