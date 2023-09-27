@@ -18,14 +18,14 @@ Levantar el backend como un proceso demonio con el siguiente comando:
 
 Esta configuración es necesaria para que pueda redireccionar tráfico desde fuera (internet) hacia la aplicación de NodeJS que está ejecutando en el puerto específico.
 
-    ubuntu@ip-172-31-85-100:~$ cat /etc/nginx/sites-available/eventum-back.patgonzalez.me
+    ubuntu@ip-172-31-85-100:~$ cat /etc/nginx/sites-available/eventum-back.dreamteam7.com
     map $http_upgrade $connection_upgrade {
         default upgrade;
         '' close;
     }
 
     server {
-        server_name eventum-back.patgonzalez.me;
+        server_name eventum-back.dreamteam7.com;
 
         location / {
             proxy_pass http://localhost:8080;
