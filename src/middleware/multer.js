@@ -1,22 +1,46 @@
 const Multer = require("multer");
-const mimetypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
+const path = require("path");
 
-const generateUploadImageMulter = (path) =>
+const allowedMimeTypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
+const maxFileSize = 2 * 1024 * 1024;
 
-    Multer({
-        storage: Multer.diskStorage({
-            destination: (req, file, cb) => cb(null, path),
-            filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
-        }),
-        fileFilter: (req, file, cb) => {
-            if (mimetypes.includes(file.mimetype)) cb(null, true);
-            else cb(null, false);
-        },
-        limits: { fileSize: 2 * 1024 * 1024 },
-    });
+const generateUploadImageMulter = (uploadPath) => {
+  const storage = Multer.diskStorage({
+    destination: (req, file, cb) => {
+      const destinationPath = path.join(__dirname, "..", uploadPath); // Ruta segura
+      cb(null, destinationPath);
+    },
+    filename: (req, file, cb) => {
+      const sanitizedFileName = sanitizeFileName(file.originalname);
+      cb(null, Date.now() + "-" + sanitizedFileName);
+    },
+  });
 
-const uploadUserImages = generateUploadImageMulter("./assets/images/userImages");
-const uploadCommentImages = generateUploadImageMulter("./assets/images");
-const uploadPostImages = generateUploadImageMulter("./assets/images");
+  const fileFilter = (req, file, cb) => {
+    if (allowedMimeTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error("Tipo de archivo no permitido"), false);
+    }
+  };
 
-module.exports = { uploadPostImages, uploadUserImages, uploadCommentImages };
+  return Multer({
+    storage,
+    fileFilter,
+    limits: { fileSize: maxFileSize },
+  });
+};
+
+const sanitizeFileName = (fileName) => {
+  return fileName.replace(/[^\w.-]/g, "_");
+};
+
+const uploadUserImages = generateUploadImageMulter("assets/images/userImages");
+const uploadFeedbackImages = generateUploadImageMulter(
+  "assets/images/feedbackImages"
+);
+const uploadEventImages = generateUploadImageMulter(
+  "assets/images/eventImages"
+);
+
+module.exports = { uploadEventImages, uploadUserImages, uploadFeedbackImages };

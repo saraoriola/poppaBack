@@ -13,7 +13,7 @@
         <button onclick="sendMessage()">Send message to the server</button>
     </body>
     <script>
-        const socket = new WebSocket("wss://eventum-back.dreamteam7.com");
+        const socket = new WebSocket("ws://localhost:8080");
 
         socket.addEventListener("open", function (event) {
             console.log("Connected to WS Server");
