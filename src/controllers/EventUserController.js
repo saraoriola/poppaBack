@@ -107,15 +107,11 @@ const EventUserController = {
             const qrtoken = req.body.qrtoken;
             let eventUser = await EventUser.findOne({ where: { qrtoken } });
 
-            ////////////////////////////////////////////////
-            //           Activar esto el dia de la demo
-            ////////////////////////////////////////////////
-
-            // if (eventUser.arriveTime) {
-            //     let msg = { type: "CHECK-IN-ALREADY-REGISTERED", payload: `QR token ${qrtoken} ya validado` };
-            //     index.broadcastMessage(msg);
-            //     return res.status(200).send(msg);
-            // }
+            if (eventUser.arriveTime) {
+                let msg = { type: "CHECK-IN-ALREADY-REGISTERED", payload: `QR token ${qrtoken} ya validado` };
+                index.broadcastMessage(msg);
+                return res.status(200).send(msg);
+            }
 
             eventUser = await EventUser.update(
                 { arriveTime: new Date() },
