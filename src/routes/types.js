@@ -12,11 +12,7 @@ router.post("/create", isAdmin, authentication, TypeController.create);
 
 router.put("/update/:id", isAdmin, authentication, TypeController.updateType);
 
-router.delete(
-  "/delete/:id",
-  isAdmin,
-  authentication,
-  TypeController.deleteTypeById
+router.delete("/delete/:id",isAdmin,authentication,TypeController.deleteTypeById
 );
 
 module.exports = router;

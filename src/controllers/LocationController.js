@@ -15,7 +15,6 @@ const LocationController = {
       res.status(500).send("No encontramos nada, lo siento!");
     }
   },
-
   async getLocationsAsc(req, res) {
     try {
       const location = await Location.findAll({
@@ -30,24 +29,18 @@ const LocationController = {
       res.status(500).send("No encontramos nada, lo siento!");
     }
   },
-
   async getById(req, res) {
     try {
       const location = await Location.findByPk(req.params.id);
       if (location) {
         res.send(location);
       } else {
-        res
-          .status(404)
-          .send({ message: "¡No! lo encontraste el evento!", location });
+        res.status(404).send({ message: "¡No! lo encontraste el evento!", location });
       }
     } catch (error) {
-      res
-        .status(500)
-        .send({ message: "Lo sentimos, ¡No encontramos este evento!", error });
+      res.status(500).send({ message: "Lo sentimos, ¡No encontramos este evento!", error });
     }
   },
-
   async getByCapacity(req, res) {
     try {
       const capacity = req.params.capacity;
@@ -66,12 +59,9 @@ const LocationController = {
         });
       }
     } catch (error) {
-      res
-        .status(500)
-        .send({ message: "Ocurrió un error al buscar por capacidad.", error });
+      res.status(500).send({ message: "Ocurrió un error al buscar por capacidad.", error });
     }
   },
-
   async createLocation(req, res) {
     try {
       const location = await Location.create(req.body);
@@ -80,24 +70,17 @@ const LocationController = {
       res.status(500).send({ message: "Perdona, evento no creado.", error });
     }
   },
-
   async updateLocation(req, res) {
     try {
       const updateLocation = await Location.findByPk(req.params.id);
       await updateLocation.update(req.body);
-      res.status(200).send({
-        message: "Ubicacion actualizado exitosamente",
-        updateLocation,
-      });
+      res.status(200).send({message: "Ubicacion actualizado exitosamente",updateLocation,});
     } catch (error) {
       console.error(error);
-      res.status(500).send({
-        message: "Ha habido un problema al actualizar la ubicacion",
-        error,
+      res.status(500).send({ message: "Ha habido un problema al actualizar la ubicacion",error,
       });
     }
   },
-
   async deleteLocation(req, res) {
     try {
       const location = await Location.destroy({

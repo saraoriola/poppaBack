@@ -186,20 +186,20 @@ const DashboardController = {
 
 
       const response = {
-          title: event.title, // Titulo evento
-          description: event.description, // Descripción evento
-          speacker: event.speacker, // Orador evento
-          day: formatDateTime(event.dateTime).split('-')[0], // Día evento
-          month: formatDateTime(event.dateTime).split('-')[1], // Mes evento
+          title: event.title, 
+          description: event.description, 
+          speacker: event.speacker, 
+          day: formatDateTime(event.dateTime).split('-')[0], 
+          month: formatDateTime(event.dateTime).split('-')[1], 
           attendees: {
-            registered: uniqueUserCount, // Nº usuarios inscritos
-            confirmed: confirmedAttendees, // Nº usuarios confirmados
-            present: attendeeCount, // Nº usuarios asistentes q han pasado el qr
+            registered: uniqueUserCount, 
+            confirmed: confirmedAttendees, 
+            present: attendeeCount, 
           },
-          capacity: location.capacity, // Nº de aforo
-          entry_exit: entryExitData, // Reistro de entradas y salidas
-          nationality: formattedUserResults, // Nº de personas y países
-          type: formattedResults,  // Nº de personas y organizaciones
+          capacity: location.capacity, 
+          entry_exit: entryExitData, 
+          nationality: formattedUserResults, 
+          type: formattedResults,  
     
       };
 

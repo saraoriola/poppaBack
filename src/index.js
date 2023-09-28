@@ -89,7 +89,7 @@ function broadcastMessage(json) {
 }
 
 function handleMessage(message, userId) {
-    console.log(`Message received from user(${userId}): ${message}`);
+    (`Message received from user(${userId}): ${message}`);
     const dataFromClient = JSON.parse(message.toString());
     const json = { type: dataFromClient.type, payload: dataFromClient.payload };
     if (dataFromClient.type === typesDef.USER_EVENT) {
@@ -108,13 +108,13 @@ function handleDisconnect(userId) {
     delete clients[userId];
     delete users[userId];
     broadcastMessage(json);
-    console.log(`${userId} disconnected.`);
+    (`${userId} disconnected.`);
 }
 
 ws.on("connection", function (connection) {
     const userId = uuidv4();
     clients[userId] = connection;
-    console.log(`${userId} connected.`);
+    (`${userId} connected.`);
     connection.on("message", (message) => handleMessage(message, userId));
     connection.on("close", () => handleDisconnect(userId));
 });

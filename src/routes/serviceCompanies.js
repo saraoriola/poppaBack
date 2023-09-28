@@ -1,49 +1,17 @@
 const express = require("express");
-
 const router = express.Router();
-
 const ServiceCompanyController = require("../controllers/ServiceCompanyController");
 const { authentication, isAdmin } = require("../middleware/authentication");
 
-//NOTE: Esto lo pongo admin ya que a un user normal le da lo mismo
-router.get(
-  "/getall",
-  isAdmin,
-  authentication,
-  ServiceCompanyController.getAllServiceCompanies
-);
-router.get(
-  "/getbyid/:id",
-  isAdmin,
-  authentication,
-  ServiceCompanyController.getServiceCompanyById
-);
-router.get(
-  "/getbyname/:name",
-  isAdmin,
-  authentication,
-  ServiceCompanyController.getAllServiceCompaniesByName
-);
 
-router.post(
-  "/create",
-  isAdmin,
-  authentication,
-  ServiceCompanyController.createServiceCompany
-);
+router.get("/getall",isAdmin,authentication,ServiceCompanyController.getAllServiceCompanies);
+router.get("/getbyid/:id",isAdmin,authentication,ServiceCompanyController.getServiceCompanyById);
+router.get("/getbyname/:name",isAdmin,authentication,ServiceCompanyController.getAllServiceCompaniesByName);
 
-router.put(
-  "/update/:id",
-  isAdmin,
-  authentication,
-  ServiceCompanyController.updateServiceCompany
-);
+router.post("/create",isAdmin,authentication,ServiceCompanyController.createServiceCompany);
 
-router.delete(
-  "/delete/:id",
-  isAdmin,
-  authentication,
-  ServiceCompanyController.deleteServiceCompany
-);
+router.put("/update/:id",isAdmin,authentication,ServiceCompanyController.updateServiceCompany);
+
+router.delete("/delete/:id",isAdmin,authentication,ServiceCompanyController.deleteServiceCompany);
 
 module.exports = router;

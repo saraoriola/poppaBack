@@ -7,7 +7,6 @@ const EducationalCenterController = {
 
     async create(req, res) {
         try {
-            // NOTE: La type_id se genera automaticamente ? 
             const educational = await EducationalCenter.create(req.body);
             res.status(201).send({ message: "Educational center creado exitosamente", educational });
         } catch (error) {

@@ -10,8 +10,6 @@ const OrganizationController = {
       console.error(error);
     }
   },
-
-  //NOTE: no funciona bien este endpoint. No los ordena.
   async getAllSortBySector(req, res) {
     try {
       const getAllOrganizations = await Organization.findAll({
@@ -22,54 +20,33 @@ const OrganizationController = {
       console.error(error);
     }
   },
-
   async getById(req, res) {
     try {
       const { id } = req.params;
-
       const organization = await Organization.findByPk(id);
-
       if (!organization) {
-        return res
-          .status(404)
-          .send({ message: "No se ha encontrado la organización" });
+        return res.status(404).send({ message: "No se ha encontrado la organización" });
       } else {
-        return res.status(200).send({
-          message: "Organización obtenida con éxito",
-          organization,
-        });
+        return res.status(200).send({message: "Organización obtenida con éxito",organization,});
       }
     } catch (error) {
-      res.status(500).send({
-        message: "Hubo un problema con el servidor",
-        error,
-      });
+      res.status(500).send({message: "Hubo un problema con el servidor",error,});
     }
   },
-
   async getOrganizationByName(req, res) {
     try {
       const organization = await Organization.findAll({
         where: { name: { [Op.like]: `%${req.params.name}%` } },
       });
       if (!organization || organization.length === 0) {
-        res.status(404).send({
-          message: "No se han encontrado resultados",
-        });
+        res.status(404).send({message: "No se han encontrado resultados",});
       } else {
-        res.status(200).send({
-          message: "Organizaciones obtenidas con éxito",
-          organization,
-        });
+        res.status(200).send({message: "Organizaciones obtenidas con éxito",organization,});
       }
     } catch (error) {
-      res.status(500).send({
-        message: "Ocurrió un error al intentar encontrar el usuario",
-        error,
-      });
+      res.status(500).send({message: "Ocurrió un error al intentar encontrar el usuario",error,});
     }
   },
-
   async getOrganizationBySector(req, res) {
     try {
       const organization = await Organization.findAll({
@@ -92,39 +69,26 @@ const OrganizationController = {
       });
     }
   },
-
-  //NOTE: La id de type se la tengo que meter manual ya que no se puede automatizar.
   async createOrganization(req, res) {
     try {
       const organization = await Organization.create(req.body);
-
-      res
-        .status(201)
-        .send({ message: "Organización creada exitosamente", organization });
+      res.status(201).send({ message: "Organización creada exitosamente", organization });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Ha habido un problema al crear la organización" });
+      res.status(500).send({ message: "Ha habido un problema al crear la organización" });
     }
   },
-
   async updateOrganization(req, res) {
     try {
       const { id } = req.params;
-
-      const updatedOrganization = await Organization.findByPk(id); // ERROR SALTA AQUÍ
-
+      const updatedOrganization = await Organization.findByPk(id); 
       if (!updatedOrganization) {
         return res.status(404).send({
           message: "No se encontró ninguna organización para actualizar",
         });
       }
-
       await updatedOrganization.update(req.body);
-
-      res.status(200).send({
-        message: "Organización actualizada exitosamente",
+      res.status(200).send({message: "Organización actualizada exitosamente",
         organization: updatedOrganization,
       });
     } catch (error) {
@@ -134,24 +98,16 @@ const OrganizationController = {
       });
     }
   },
-
   async deleteOrganization(req, res) {
     try {
       const { id } = req.params;
-
       const organization = await Organization.destroy({
         where: { id: id },
       });
-
       if (!organization) {
-        return res
-          .status(404)
-          .send({ message: "No se encontró ninguna organización" });
+        return res.status(404).send({ message: "No se encontró ninguna organización" });
       }
-
-      res.status(200).send({
-        message: "Organización eliminada exitosamente",
-      });
+      res.status(200).send({message: "Organización eliminada exitosamente",});
     } catch (error) {
       console.error(error);
       res.status(500).send({ message: "Hubo un problema con el servidor" });

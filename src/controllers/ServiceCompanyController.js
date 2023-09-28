@@ -17,32 +17,23 @@ const ServiceCompanyController = {
   async getServiceCompanyById(req, res) {
     try {
       const { id } = req.params;
-
       const serviceCompany = await Service_company.findByPk(id);
-
       if (!serviceCompany) {
-        res
-          .status(404)
-          .send({ message: "Compañía de servicios no encontrada" });
+        res.status(404).send({ message: "Compañía de servicios no encontrada" });
       } else {
         res.status(200).send(serviceCompany);
       }
     } catch (error) {
-      res.status(500).send({
-        message: "Hubo un problema con el servidor",
-        error,
-      });
+      res.status(500).send({message: "Hubo un problema con el servidor",error,});
     }
   },
 
   async getAllServiceCompaniesByName(req, res) {
     try {
       const { name } = req.params;
-
       const serviceCompanies = await Service_company.findAll({
         where: { name: { [Op.like]: `%${name}%` } },
       });
-
       if (serviceCompanies.length === 0 || !serviceCompanies) {
         res
           .status(404)
@@ -52,13 +43,9 @@ const ServiceCompanyController = {
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send({
-        message: "Hubo un problema con el servidor",
-        error,
-      });
+      res.status(500).send({message: "Hubo un problema con el servidor",error,});
     }
   },
-
   async createServiceCompany(req, res) {
     try {
       const serviceCompany = await Service_company.create(req.body);
@@ -68,39 +55,26 @@ const ServiceCompanyController = {
       });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Hubo un problema con el servidor", error });
+      res.status(500).send({ message: "Hubo un problema con el servidor", error });
     }
   },
-
   async updateServiceCompany(req, res) {
     try {
       const { id } = req.params;
       const serviceCompanyUpdated = req.body;
-
       await Service_company.update(serviceCompanyUpdated, {
         where: { id: id },
       });
-
       if (!id) {
-        res
-          .status(404)
-          .send({ message: "Compañía de servicios no encontrada" });
+        res.status(404).send({ message: "Compañía de servicios no encontrada" });
       } else {
-        res.status(200).send({
-          message: "Compañía de servicios actualizada con éxito",
-          serviceCompanyUpdated,
-        });
+        res.status(200).send({message: "Compañía de servicios actualizada con éxito",serviceCompanyUpdated,});
       }
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Hubo un problema con el servidor", error });
+      res.status(500).send({ message: "Hubo un problema con el servidor", error });
     }
   },
-
   async deleteServiceCompany(req, res) {
     try {
       const serviceCompany = await Service_company.destroy({
@@ -108,21 +82,14 @@ const ServiceCompanyController = {
           id: req.params.id,
         },
       });
-
       if (!serviceCompany) {
-        res
-          .status(404)
-          .send({ message: "Compañía de servicios no encontrada" });
+        res.status(404).send({ message: "Compañía de servicios no encontrada" });
       } else {
-        res
-          .status(200)
-          .send({ message: "Compañía de servicios eliminada con éxito" });
+        res.status(200).send({ message: "Compañía de servicios eliminada con éxito" });
       }
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Hubo un problema con el servidor", error });
+      res.status(500).send({ message: "Hubo un problema con el servidor", error });
     }
   },
 };

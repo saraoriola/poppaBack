@@ -11,11 +11,11 @@ router.get("/lowertohigher", authentication, FeedBacksController.getInAsc);
 router.post("/create", authentication, FeedBacksController.createFeedBack);
 router.post("/valoration", authentication, FeedBacksController.createValoration);
 
-//NOTE: Hacer un endpoint para que el usuario pueda actualizar solo sus feedbacks.
-router.put("/update/:id", authentication, FeedBacksController.updateFeedBack); //NOTE: Estos los veo innecesarios, un admin para que querría actualizar los endpoints de un usuario?
+
+router.put("/update/:id", authentication, FeedBacksController.updateFeedBack); 
 router.put("/update/valoration/:id", authentication, FeedBacksController.updateValoration);
 
-//NOTE: Hacer un endpoint para que el usuario pueda borrar solo sus feedbacks.
+
 router.delete("/delete/valoration/:id", isAdmin, authentication, FeedBacksController.deleteValoration);
 router.delete("/delete/:id", isAdmin, authentication, FeedBacksController.deleteFeedBackById);
 router.delete("/deleteall", isAdmin, authentication, FeedBacksController.deleteAllFeedbacks);

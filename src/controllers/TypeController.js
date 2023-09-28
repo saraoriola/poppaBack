@@ -5,7 +5,6 @@ const TypeController = {
 
     async create(req, res) {
         try {
-            // NOTE: La organization_id se la metes a pelo ?
             const type = await Type.create(req.body);
             res.status(201).send({ message: "Type creado exitosamente", type });
         } catch (error) {

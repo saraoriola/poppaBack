@@ -18,7 +18,6 @@ const ServiceProvisionController = {
   async getServiceById(req, res) {
     try {
       const { id } = req.params;
-
       const service = await Service_Provision.findByPk(id);
 
       if (!service) {
@@ -28,13 +27,9 @@ const ServiceProvisionController = {
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send({
-        message: "Hubo un problema con el servidor",
-        error,
-      });
+      res.status(500).send({message: "Hubo un problema con el servidor", error, });
     }
   },
-
   async getServiceByName(req, res) {
     try {
       const service = await Service_Provision.findAll({
@@ -48,50 +43,33 @@ const ServiceProvisionController = {
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send({
-        message: "Hubo un problema con el servidor",
-        error,
-      });
+      res.status(500).send({message: "Hubo un problema con el servidor",error,});
     }
   },
-
   async createService(req, res) {
     try {
       const service = await Service_Provision.create(req.body);
       res.status(201).send({ message: "Servicio creado con éxito", service });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Hubo un problema con el servidor", error });
+      res.status(500).send({ message: "Hubo un problema con el servidor", error });
     }
   },
-
   async updateService(req, res) {
     try {
       const { id } = req.params;
       const serviceUpdated = await Service_Provision.findByPk(id);
-
       if (!serviceUpdated) {
-        return res
-          .status(404)
-          .send({ message: "No se encontró ningún Servicio" });
+        return res.status(404).send({ message: "No se encontró ningún Servicio" });
       }
-
       await serviceUpdated.update(req.body);
-
-      res.status(200).send({
-        message: "Servicio actualizado con éxito",
-        event: serviceUpdated,
+      res.status(200).send({message: "Servicio actualizado con éxito",event: serviceUpdated,
       });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Ha habido un problema al actualizar el servicio" });
+      res.status(500).send({ message: "Ha habido un problema al actualizar el servicio" });
     }
   },
-
   async deleteService(req, res) {
     try {
       const service = await Service_Provision.destroy({
@@ -107,9 +85,7 @@ const ServiceProvisionController = {
       }
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Hubo un problema con el servidor", error });
+      res.status(500).send({ message: "Hubo un problema con el servidor", error });
     }
   },
 };

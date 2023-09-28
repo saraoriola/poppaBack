@@ -68,12 +68,9 @@ const UserController = {
             res.status(500).send({ message: "Intente novamente", error });
         }
     },
-
-    //NOTE: No se si he de crear un usuario para eventUser o se asigna manualmente
     async register(req, res, next) {
         try {
             const { password } = req.body;
-
             if (!regExPass.test(password)) {
                 return res.status(400).send({
                     message: "La contraseña debe tener un mínimo de 8 carácters, una mayúscula, una minúscula y un carácter especial",
@@ -104,14 +101,12 @@ const UserController = {
         <a href="${url}"> Click para confirmar tu registro</a>
         `,
             });
-
             res.status(201).send({ message: "Usuario creado con éxito", user, role });
         } catch (error) {
             console.error(error);
             next(error);
         }
     },
-
     async confirm(req, res) {
         try {
             const token = req.params.emailToken;
@@ -129,7 +124,6 @@ const UserController = {
             console.error(error);
         }
     },
-
     async login(req, res) {
         try {
             const user = await User.findOne({
@@ -159,7 +153,6 @@ const UserController = {
             res.status(500).send(error);
         }
     },
-
     async update(req, res) {
         try {
             const { id } = req.params;
@@ -185,7 +178,6 @@ const UserController = {
             res.status(500).send({ message: "Error al se actualizar el usuario", error });
         }
     },
-
     async updateMySelf(req, res) {
         try {
             const updatedData = req.body;
@@ -209,7 +201,6 @@ const UserController = {
             res.status(500).send({ message: "Error al se actualizar el usuario", error });
         }
     },
-
     async recoverPassword(req, res) {
         try {
             const recoverToken = jwt.sign({ email: req.params.email }, jwt_secret, {
@@ -231,7 +222,6 @@ const UserController = {
             console.error(error);
         }
     },
-
     async resetPassword(req, res) {
         try {
             const { password } = req.body;
@@ -251,7 +241,6 @@ const UserController = {
             console.error(error);
         }
     },
-
     async delete(req, res) {
         try {
             const { id } = req.params;
@@ -289,7 +278,6 @@ const UserController = {
             res.status(500).send({ message: "Error al eliminar el usuario", error });
         }
     },
-
     async deleteMyAccount(req, res) {
         try {
             const user = req.body;
@@ -328,7 +316,6 @@ const UserController = {
             res.status(500).send({ message: "Error de servidor.", error });
         }
     },
-
     async logout(req, res) {
         try {
             await Token.destroy({

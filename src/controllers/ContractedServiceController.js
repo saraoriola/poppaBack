@@ -7,9 +7,7 @@ const ContractedServiceController = {
       res.status(200).send(getAllContractedServices);
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Hay un problema con el servidor", error });
+      res.status(500).send({ message: "Hay un problema con el servidor", error });
     }
   },
   async getContractedServiceById(req, res) {
@@ -18,58 +16,39 @@ const ContractedServiceController = {
       const contractedService = await Contracted_service.findOne({
         where: { id: id },
       });
-
       if (!contractedService) {
-        return res
-          .status(404)
-          .send({ message: "Servicio contratado no encontrado" });
+        return res.status(404).send({ message: "Servicio contratado no encontrado" });
       } else {
         return res.status(200).send(contractedService);
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send({
-        message: "Hubo un problema con el servidor",
-        error,
-      });
+      res.status(500).send({ message: "Hubo un problema con el servidor", error, });
     }
   },
-  // NOTE: Mirar para vincular las tablas de service_id, event_id, service_company_id
   async createContractedService(req, res) {
     try {
       const contractedService = await Contracted_service.create(req.body);
-      res
-        .status(201)
-        .send({ message: "Servicio contratado con éxito", contractedService });
+      res.status(201).send({ message: "Servicio contratado con éxito", contractedService });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Hubo un problema con el servidor", error });
+      res.status(500).send({ message: "Hubo un problema con el servidor", error });
     }
   },
   async updateContractedService(req, res) {
     try {
       const { id } = req.params;
       const contractedServiceUpdated = req.body;
-
       await Contracted_service.update(contractedServiceUpdated, {
         where: { id: id },
       });
-
       if (!id) {
         res.status(404).send({ message: "Servicio contratado no encontrado" });
       }
-
-      res.status(200).send({
-        message: "Servicio contratado actualizado con éxito",
-        contractedServiceUpdated,
-      });
+      res.status(200).send({ message: "Servicio contratado actualizado con éxito", contractedServiceUpdated, });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Hubo un problema con el servidor", error });
+      res.status(500).send({ message: "Hubo un problema con el servidor", error });
     }
   },
   async deleteContractedService(req, res) {
@@ -79,19 +58,13 @@ const ContractedServiceController = {
           id: req.params.id,
         },
       });
-
       if (!contractedService) {
         res.status(404).send({ message: "Servicio contratado no encontrado" });
       }
-
-      res
-        .status(200)
-        .send({ message: "Servicio contratado eliminado con éxito" });
+      res.status(200).send({ message: "Servicio contratado eliminado con éxito" });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .send({ message: "Hubo un problema con el servidor", error });
+      res.status(500).send({ message: "Hubo un problema con el servidor", error });
     }
   },
 };
